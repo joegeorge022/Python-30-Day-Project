@@ -1,0 +1,16 @@
+'''
+Author: Indhu Subash
+Date:29-10-2024
+'''
+full_name="Indhu Subash"
+age="17"
+is_student=True
+
+print(f"Hello {full_name}!")
+print(f"Your name is {full_name} and You are {age} years old.")
+print(f"Are you a student?  {is_student}")
+
+if is_student:
+    print("He is a student")
+else:
+    print("He is not a student")
