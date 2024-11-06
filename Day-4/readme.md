@@ -1,5 +1,7 @@
 # Day 4: Working with Strings in Python
 
+### Ask for help if needed 🥹. Ganesh will help you✌️
+
 ## **Task**: Explore string manipulation and built-in string methods.
 
 **Description**:
