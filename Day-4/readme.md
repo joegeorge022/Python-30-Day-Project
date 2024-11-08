@@ -7,6 +7,8 @@
 **Description**:
 Strings are one of the most commonly used data types in Python. They allow you to store text data and perform various operations such as slicing, concatenation, and applying built-in methods. Today, you'll practice string operations and learn some of Python's powerful string methods to manipulate text efficiently.
 
+## EVERYTHING IN THIS DAY'S TASK'S EXCEPT built-in methods like `lower()`, `upper()`, `split()`, and `replace()` HAVE BEEN DONE IN PYTHON LAB. SO THIS SHOULDN'T POSE A PROBLEM. 
+
 **Key Concepts**:
 - **String Declaration**: Declare strings using single or double quotes.
 - **String Concatenation**: Combine strings using the `+` operator.
