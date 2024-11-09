@@ -32,6 +32,7 @@ print(message[0:7])  # Output: Welcome
 
 # Using String Methods
 sentence = "python is awesome"
+print(sentence.lower())  # Output: python is awesome
 print(sentence.upper())  # Output: PYTHON IS AWESOME
 print(sentence.split())   # Output: ['python', 'is', 'awesome']
 print(sentence.replace("awesome", "great"))  # Output: python is great
