@@ -1,46 +1,74 @@
-name: Check Daily Submissions
+name: Auto Close Issue on File Upload
 
 on:
-  issues:
-    types: [opened, edited, labeled]
   push:
     branches:
-      - main
+      - main  # or your default branch name
+  pull_request:
+    types: [closed]
 
 jobs:
-  check-submissions:
+  check-and-close:
     runs-on: ubuntu-latest
-    if: contains(github.event.issue.labels.*.name, 'day-')
-
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Get day label
-        id: get_day
-        run: |
-          # Extract day number from the label that starts with 'day-'
-          day_number=$(echo "${{ toJSON(github.event.issue.labels.*.name) }}" | grep -o 'day-[0-9]*' | grep -o '[0-9]*' | head -n1)
-          echo "day=$day_number" >> $GITHUB_OUTPUT
-
-      - name: Check for submissions count
-        id: check_files
-        run: |
-          day_folder="Day-${{ steps.get_day.outputs.day }}"
-          # Count the number of files in the day folder
-          file_count=$(ls "${day_folder}" 2>/dev/null | wc -l)
-          
-          # Check if there are 5 or more files
-          if [ "$file_count" -ge 5 ]; then
-            echo "::set-output name=enough_submissions::true"
-          else
-            echo "::set-output name=enough_submissions::false"
-          fi
-
-      - name: Close issue if enough submissions
-        if: steps.check_files.outputs.enough_submissions == 'true'
-        uses: peter-evans/close-issue@v2
+      - name: Check folder contents and close issue
+        uses: actions/github-script@v7
         with:
-          issue-number: ${{ github.event.issue.number }}
-          comment: "5 or more submissions have been uploaded for this task. Marking it complete. ✅"
-          state: closed
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            // Function to count files in a directory
+            function countFiles(dirPath) {
+              try {
+                const files = fs.readdirSync(dirPath);
+                return files.filter(file => fs.statSync(path.join(dirPath, file)).isFile()).length;
+              } catch (error) {
+                return 0;
+              }
+            }
+            
+            // Get all Day-* directories
+            const dirs = fs.readdirSync('.').filter(dir => dir.startsWith('Day-'));
+            
+            for (const dir of dirs) {
+              const fileCount = countFiles(dir);
+              
+              if (fileCount >= 5) {
+                // Find and close corresponding issue
+                const issueNumber = dir.split('-')[1]; // Assumes issue numbers match day numbers
+                
+                try {
+                  const issues = await github.rest.issues.listForRepo({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    state: 'open',
+                    labels: [`Day-${issueNumber}`] // Assumes issues are labeled with Day-1, Day-2, etc.
+                  });
+                  
+                  for (const issue of issues.data) {
+                    await github.rest.issues.update({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      issue_number: issue.number,
+                      state: 'closed',
+                      state_reason: 'completed'
+                    });
+                    
+                    // Add a comment to the issue
+                    await github.rest.issues.createComment({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      issue_number: issue.number,
+                      body: `This issue has been automatically closed as ${fileCount} files have been uploaded to the ${dir} folder.`
+                    });
+                  }
+                } catch (error) {
+                  console.log(`Error processing ${dir}: ${error.message}`);
+                }
+              }
+            }
