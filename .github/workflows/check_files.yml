@@ -6,6 +6,8 @@ on:
       - main  # or your default branch name
   pull_request:
     types: [closed]
+  issues:
+    types: [reopened]
 
 jobs:
   check-and-close:
@@ -22,4 +24,58 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            // ... (rest of the script remains the same)
+            const fs = require('fs');
+            const path = require('path');
+            
+            function countFiles(dirPath) {
+              try {
+                const files = fs.readdirSync(dirPath);
+                return files.filter(file => fs.statSync(path.join(dirPath, file)).isFile()).length;
+              } catch (error) {
+                return 0;
+              }
+            }
+            
+            const dirs = fs.readdirSync('.').filter(dir => /^Day[ -]?\d+$/.test(dir));
+            
+            for (const dir of dirs) {
+              const fileCount = countFiles(dir);
+              
+              console.log(`Checking ${dir}: ${fileCount} files found`);
+              
+              if (fileCount >= 5) {
+                const dayNumber = dir.match(/\d+/)[0];
+                
+                try {
+                  console.log(`Searching for issues labeled Day-${dayNumber} or Day ${dayNumber}`);
+                  const issues = await github.rest.issues.listForRepo({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    state: 'open',
+                    labels: [`Day-${dayNumber}`, `Day ${dayNumber}`]
+                  });
+                  
+                  console.log(`Found ${issues.data.length} matching issues`);
+                  
+                  for (const issue of issues.data) {
+                    console.log(`Closing issue #${issue.number}`);
+                    await github.rest.issues.update({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      issue_number: issue.number,
+                      state: 'closed',
+                      state_reason: 'completed'
+                    });
+                    
+                    await github.rest.issues.createComment({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      issue_number: issue.number,
+                      body: `This issue has been automatically closed as ${fileCount} files have been uploaded to the ${dir} folder.`
+                    });
+                  }
+                } catch (error) {
+                  console.error(`Error processing ${dir}: ${error.message}`);
+                }
+              }
+            }
