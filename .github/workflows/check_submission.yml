@@ -34,7 +34,7 @@ jobs:
         id: check_files
         run: |
           day_folder="Day-${{ steps.get_day.outputs.day }}"
-          members=("joegeorge022" "JoeMartinRince" "Ganesh-Chandran005" "Jobthomas10" "IndhuSubash-2007")  # Your members' usernames
+          members=("joegeorge022" "JoeMartinRince" "Ganesh-Chandran005" "Jobthomas10")  # Your members' usernames
           all_files_present=true
           
           # Check if all members have uploaded their file in the specified folder
