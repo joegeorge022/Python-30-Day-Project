@@ -2,7 +2,9 @@ name: Check Daily Submissions
 
 on:
   issues:
-    types: [labeled]
+    types: [labeled]  # This ensures the workflow triggers when a label is added to an issue.
+                      # Instead of scanning everyday at a certain time, this automatically triggers when all members have submitted their work.
+
 jobs:
   check-submissions:
     runs-on: ubuntu-latest
@@ -11,31 +13,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Get the labels for the current issue from GitHub context
+      - name: Get day label
         id: get_day
         run: |
-          # Get the labels from the GitHub context as a valid JSON array
-          labels="${{ toJson(github.event.issue.labels) }}"
-          
-          # Debug: output the labels to verify if they are properly retrieved
-          echo "Labels: $labels"
-          
-          # Extract the day number from the label in the format "Day-X"
-          day_label=$(echo "$labels" | jq -r '.[] | select(.name | test("^Day-[0-9]+$")) | .name')
-          
-          # Extract the number after "Day-" from the label
-          day_number=$(echo "$day_label" | sed -E 's/Day-([0-9]+)/\1/')
-          
-          # Output the day number to be used in the following steps
-          echo "::set-output name=day::$day_number"
+          label=$(echo "${{ github.event.issue.labels }}" | grep -o '"name": "Day-[0-9]*"' | grep -o '[0-9]*')
+          echo "::set-output name=day::$label"
 
       - name: Check for each member's submission
         id: check_files
         run: |
           day_folder="Day-${{ steps.get_day.outputs.day }}"
-          members=("joegeorge022" "JoeMartinRince" "Ganesh-Chandran005" "Jobthomas10")
+          members=("joegeorge022" "JoeMartinRince" "Ganesh-Chandran005" "Jobthomas10")             #Here I've inserted the usernames of my teammates
           all_files_present=true
-
+          
           # Check if all members have uploaded their file in the specified folder
           for member in "${members[@]}"; do
             if ! ls "${day_folder}" | grep -q "$member"; then
