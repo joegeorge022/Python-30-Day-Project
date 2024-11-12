@@ -3,8 +3,7 @@ name: Auto Close Issue After 5 Submissions
 on:
   push:
     paths:
-      - '**/name.py'  # Trigger when a file "name.py" is uploaded in any folder
-
+      - '**/*.py'
 jobs:
   check_submissions:
     runs-on: ubuntu-latest
