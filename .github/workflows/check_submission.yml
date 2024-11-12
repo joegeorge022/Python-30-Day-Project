@@ -27,7 +27,7 @@ jobs:
           day_folder="Day-${{ steps.get_day.outputs.day }}"
           
           # List of group member GitHub usernames
-          members=("user1" "user2" "user3" "user4" "user5")
+          members=("joegeorge022" "JoeMartinRince" "Ganesh-Chandran005" "Jobthomas10")
           
           all_files_present=true
           
