@@ -9,4 +9,5 @@ print(f"Are you a student? Ans: {is_student}")
 if is_student:
     print("He is a student")
 else:
-    print("He is not a student")
+    print("He is not a student") 
+ 
