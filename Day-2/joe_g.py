@@ -15,7 +15,7 @@ enemies -= 5             #now printing enemies= 10-5 =5
                          #another way is (enemies = enemies - 5)
 print(enemies)
 
-
+ 
 #Multiplication
 allies = 10
 
