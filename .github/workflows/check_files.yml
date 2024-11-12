@@ -1,37 +1,45 @@
-name: Auto Close Issues Based on Files
+name: Close Issue on File Upload
 
 on:
   push:
     paths:
-      - 'Day-*/**/*'  # Monitor any file added/modified in any Day folder
+      - 'Day-*/**/*'  # Trigger on changes to any folder named Day-*
 
 jobs:
   check_files:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Get the day folder and count files
-        id: file_count
-        run: |
-          # Extract the Day-X folder from the pushed path
-          day_folder=$(echo "${GITHUB_REF_NAME}" | grep -oP "Day-\d+")
-          echo "Day folder: $day_folder"
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Count files in the day folder
+      run: |
+        # Extract the folder name (e.g., Day-1)
+        FOLDER=$(echo "${GITHUB_REF}" | grep -o "Day-[0-9]*")
+        
+        # Count the number of files in the folder
+        FILE_COUNT=$(find "$FOLDER" -type f | wc -l)
+        
+        echo "Number of files in $FOLDER: $FILE_COUNT"
+        
+        # Set an output variable for the file count
+        echo "file_count=$FILE_COUNT" >> $GITHUB_ENV
+        
+    - name: Close the issue if 5 or more files
+      if: ${{ env.file_count >= 5 }}
+      run: |
+        ISSUE_NUMBER=$(curl -s \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          https://api.github.com/repos/${{ github.repository }}/issues \
+          | jq -r '.[] | select(.title | contains("Day")) | .number' | head -n 1)
           
-          # Count files in that folder
-          file_count=$(find "$day_folder" -type f | wc -l)
-          echo "Number of files in $day_folder: $file_count"
-          echo "file_count=$file_count" >> $GITHUB_ENV
-
-      - name: Close the issue if 5 or more files exist
-        if: env.file_count >= 5
-        run: |
-          # Extract the Day number (e.g., Day-1 -> 1)
-          day_number=$(echo "$day_folder" | grep -oP "\d+")
-          
-          # Close the issue using GitHub API
-          curl -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+        if [ -n "$ISSUE_NUMBER" ]; then
+          echo "Closing issue #$ISSUE_NUMBER"
+          curl -X PATCH \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -d '{"state": "closed"}' \
-            "https://api.github.com/repos/${{ github.repository }}/issues/${day_number}"
+            https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER
+        else
+          echo "No matching issue found to close"
+        fi
