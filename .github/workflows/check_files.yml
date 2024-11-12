@@ -13,22 +13,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Count files in Day folder
+      - name: Get the day folder and count files
         id: file_count
         run: |
-          # Get the number of files in the folder
-          folder="Day-${GITHUB_REF#refs/heads/}"  # Get the folder name based on the branch (e.g., 'Day-1')
-          file_count=$(find "$folder" -type f | wc -l)
-          echo "Number of files in $folder: $file_count"
+          # Extract the Day-X folder from the pushed path
+          day_folder=$(echo "${GITHUB_REF_NAME}" | grep -oP "Day-\d+")
+          echo "Day folder: $day_folder"
+          
+          # Count files in that folder
+          file_count=$(find "$day_folder" -type f | wc -l)
+          echo "Number of files in $day_folder: $file_count"
           echo "file_count=$file_count" >> $GITHUB_ENV
 
       - name: Close the issue if 5 or more files exist
         if: env.file_count >= 5
         run: |
-          # Get the issue number based on the folder (Day-1 -> #1)
-          issue_number=$((GITHUB_REF_NAME#refs/heads/ | grep -o '[0-9]'))
+          # Extract the Day number (e.g., Day-1 -> 1)
+          day_number=$(echo "$day_folder" | grep -oP "\d+")
           
           # Close the issue using GitHub API
           curl -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -d '{"state": "closed"}' \
-            "https://api.github.com/repos/${{ github.repository }}/issues/${issue_number}"
+            "https://api.github.com/repos/${{ github.repository }}/issues/${day_number}"
