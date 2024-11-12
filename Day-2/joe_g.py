@@ -1,4 +1,4 @@
-# 3.ARITHMETIC
+# 3.ARITHMETIC 
 
 #Addition
 friends = 5              #now printing friends =5
