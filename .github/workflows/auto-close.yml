@@ -3,7 +3,7 @@ name: Auto Close Issue After 5 or More Submissions
 on:
   push:
     paths:
-      - '**/name.py'  # Trigger when a file "name.py" is uploaded in any folder
+      - '**/*.py'  # Trigger when any Python file (*.py) is uploaded in any folder
 
 jobs:
   check_submissions:
@@ -13,13 +13,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Count the number of name.py files
+      - name: Count the number of Python files
         run: |
           # Define the minimum number of submissions required (5 members)
           MIN_SUBMISSIONS=5
 
-          # Count the number of name.py files in the repository
-          FILE_COUNT=$(find . -name "name.py" | wc -l)
+          # Count the number of Python files in the repository
+          FILE_COUNT=$(find . -name "*.py" | wc -l)
 
           # If the number of files is greater than or equal to MIN_SUBMISSIONS
           if [ "$FILE_COUNT" -ge "$MIN_SUBMISSIONS" ]; then
