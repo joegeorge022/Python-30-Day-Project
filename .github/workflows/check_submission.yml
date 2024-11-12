@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3  # Use the latest version of checkout action
+        uses: actions/checkout@v2  # Use the latest version of checkout action
 
       - name: Get day label
         id: get_day
