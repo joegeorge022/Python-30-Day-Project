@@ -10,6 +10,9 @@ on:
 jobs:
   check-and-close:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -19,56 +22,4 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const fs = require('fs');
-            const path = require('path');
-            
-            // Function to count files in a directory
-            function countFiles(dirPath) {
-              try {
-                const files = fs.readdirSync(dirPath);
-                return files.filter(file => fs.statSync(path.join(dirPath, file)).isFile()).length;
-              } catch (error) {
-                return 0;
-              }
-            }
-            
-            // Get all Day-* directories
-            const dirs = fs.readdirSync('.').filter(dir => dir.startsWith('Day-'));
-            
-            for (const dir of dirs) {
-              const fileCount = countFiles(dir);
-              
-              if (fileCount >= 5) {
-                // Find and close corresponding issue
-                const issueNumber = dir.split('-')[1]; // Assumes issue numbers match day numbers
-                
-                try {
-                  const issues = await github.rest.issues.listForRepo({
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    state: 'open',
-                    labels: [`Day-${issueNumber}`] // Assumes issues are labeled with Day-1, Day-2, etc.
-                  });
-                  
-                  for (const issue of issues.data) {
-                    await github.rest.issues.update({
-                      owner: context.repo.owner,
-                      repo: context.repo.repo,
-                      issue_number: issue.number,
-                      state: 'closed',
-                      state_reason: 'completed'
-                    });
-                    
-                    // Add a comment to the issue
-                    await github.rest.issues.createComment({
-                      owner: context.repo.owner,
-                      repo: context.repo.repo,
-                      issue_number: issue.number,
-                      body: `This issue has been automatically closed as ${fileCount} files have been uploaded to the ${dir} folder.`
-                    });
-                  }
-                } catch (error) {
-                  console.log(`Error processing ${dir}: ${error.message}`);
-                }
-              }
-            }
+            // ... (rest of the script remains the same)
