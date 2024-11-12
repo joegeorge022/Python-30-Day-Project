@@ -1,9 +1,9 @@
-name: Auto Close Issue After Submission
+name: Auto Close Issue After 5 Submissions
 
 on:
   push:
     paths:
-      - 'Day-*/name.py'  # Trigger the workflow when a member uploads a "name.py" file in any Day-X folder
+      - '**/name.py'  # Trigger when a file "name.py" is uploaded in any folder
 
 jobs:
   check_submissions:
@@ -13,26 +13,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Check if all group members have submitted their work
+      - name: Count the number of name.py files
         run: |
-          # Define the number of group members
+          # Define the number of submissions expected (5 members)
           GROUP_MEMBERS=5
-          
-          # Loop through each Day-X folder
-          for i in {1..30}; do
-            DAY_FOLDER="Day-$i"
-            
-            # Count the number of .py files in the folder
-            FILE_COUNT=$(find "$DAY_FOLDER" -name "name.py" | wc -l)
 
-            # If all members have submitted their work for this day
-            if [ "$FILE_COUNT" -eq "$GROUP_MEMBERS" ]; then
-              # Use GitHub's default permissions to close the issue for this day
-              ISSUE_NUMBER=$(curl -s "https://api.github.com/repos/${{ github.repository }}/issues?state=open&labels=Day-$i" | jq '.[0].number')
-              
-              if [ -n "$ISSUE_NUMBER" ]; then
-                curl -X PATCH "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER" \
-                  -d '{"state": "closed"}'
-              fi
+          # Count the number of name.py files in the repository
+          FILE_COUNT=$(find . -name "name.py" | wc -l)
+
+          # If the number of files is equal to the number of group members
+          if [ "$FILE_COUNT" -eq "$GROUP_MEMBERS" ]; then
+            echo "All members have submitted their work. Closing issue..."
+            
+            # Close the issue by checking the number of open issues
+            ISSUE_NUMBER=$(curl -s "https://api.github.com/repos/${{ github.repository }}/issues?state=open" | jq '.[0].number')
+            
+            # Check if an issue was found and close it
+            if [ -n "$ISSUE_NUMBER" ]; then
+              curl -X PATCH "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER" \
+                -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                -d '{"state": "closed"}'
             fi
-          done
+          else
+            echo "Not all members have submitted their work. Current count: $FILE_COUNT"
+          fi
