@@ -3,7 +3,7 @@ name: Check Daily Submissions
 on:
   issues:
     types: [labeled]  # This ensures the workflow triggers when a label is added to an issue.
-                      # Instead of scanning everyday at a certain time this automatically triggers when all members have submitted their work.
+                      # Instead of scanning everyday at a certain time, this automatically triggers when all members have submitted their work.
 
 jobs:
   check-submissions:
@@ -16,7 +16,7 @@ jobs:
       - name: Get day label
         id: get_day
         run: |
-          label=$(echo "${{ github.event.issue.labels }}" | grep -o '"name": "day-[0-9]*"' | grep -o '[0-9]*')
+          label=$(echo "${{ github.event.issue.labels }}" | grep -o '"name": "Day-[0-9]*"' | grep -o '[0-9]*')
           echo "::set-output name=day::$label"
 
       - name: Check for each member's submission
