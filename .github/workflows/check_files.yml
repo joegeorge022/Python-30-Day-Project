@@ -3,7 +3,7 @@ name: Close Issue on File Upload
 on:
   push:
     paths:
-      - 'Day-*/**/*'  # Trigger on changes to any folder named Day-*
+      - 'Day*/**/*'  # Trigger on changes to any folder named Day-*
 
 jobs:
   check_files:
