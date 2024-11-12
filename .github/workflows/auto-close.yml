@@ -1,0 +1,38 @@
+name: Auto Close Issue After Submission
+
+on:
+  push:
+    paths:
+      - 'Day-*/name.py'  # Trigger the workflow when a member uploads a "name.py" file in any Day-X folder
+
+jobs:
+  check_submissions:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Check if all group members have submitted their work
+        run: |
+          # Define the number of group members
+          GROUP_MEMBERS=5
+          
+          # Loop through each Day-X folder
+          for i in {1..30}; do
+            DAY_FOLDER="Day-$i"
+            
+            # Count the number of .py files in the folder
+            FILE_COUNT=$(find "$DAY_FOLDER" -name "name.py" | wc -l)
+
+            # If all members have submitted their work for this day
+            if [ "$FILE_COUNT" -eq "$GROUP_MEMBERS" ]; then
+              # Use GitHub's default permissions to close the issue for this day
+              ISSUE_NUMBER=$(curl -s "https://api.github.com/repos/${{ github.repository }}/issues?state=open&labels=Day-$i" | jq '.[0].number')
+              
+              if [ -n "$ISSUE_NUMBER" ]; then
+                curl -X PATCH "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER" \
+                  -d '{"state": "closed"}'
+              fi
+            fi
+          done
