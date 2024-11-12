@@ -1,45 +1,46 @@
-name: Close Issue on File Upload
+name: Check Daily Submissions
 
 on:
+  issues:
+    types: [opened, edited, labeled]
   push:
-    paths:
-      - 'Day*/**/*'  # Trigger on changes to any folder named Day-*
+    branches:
+      - main
 
 jobs:
-  check_files:
+  check-submissions:
     runs-on: ubuntu-latest
-    
+    if: contains(github.event.issue.labels.*.name, 'day-')
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-      
-    - name: Count files in the day folder
-      run: |
-        # Extract the folder name (e.g., Day-1)
-        FOLDER=$(echo "${GITHUB_REF}" | grep -o "Day-[0-9]*")
-        
-        # Count the number of files in the folder
-        FILE_COUNT=$(find "$FOLDER" -type f | wc -l)
-        
-        echo "Number of files in $FOLDER: $FILE_COUNT"
-        
-        # Set an output variable for the file count
-        echo "file_count=$FILE_COUNT" >> $GITHUB_ENV
-        
-    - name: Close the issue if 5 or more files
-      if: ${{ env.file_count >= 5 }}
-      run: |
-        ISSUE_NUMBER=$(curl -s \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          https://api.github.com/repos/${{ github.repository }}/issues \
-          | jq -r '.[] | select(.title | contains("Day")) | .number' | head -n 1)
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Get day label
+        id: get_day
+        run: |
+          # Extract day number from the label that starts with 'day-'
+          day_number=$(echo "${{ toJSON(github.event.issue.labels.*.name) }}" | grep -o 'day-[0-9]*' | grep -o '[0-9]*' | head -n1)
+          echo "day=$day_number" >> $GITHUB_OUTPUT
+
+      - name: Check for submissions count
+        id: check_files
+        run: |
+          day_folder="Day-${{ steps.get_day.outputs.day }}"
+          # Count the number of files in the day folder
+          file_count=$(ls "${day_folder}" 2>/dev/null | wc -l)
           
-        if [ -n "$ISSUE_NUMBER" ]; then
-          echo "Closing issue #$ISSUE_NUMBER"
-          curl -X PATCH \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -d '{"state": "closed"}' \
-            https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER
-        else
-          echo "No matching issue found to close"
-        fi
+          # Check if there are 5 or more files
+          if [ "$file_count" -ge 5 ]; then
+            echo "::set-output name=enough_submissions::true"
+          else
+            echo "::set-output name=enough_submissions::false"
+          fi
+
+      - name: Close issue if enough submissions
+        if: steps.check_files.outputs.enough_submissions == 'true'
+        uses: peter-evans/close-issue@v2
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          comment: "5 or more submissions have been uploaded for this task. Marking it complete. ✅"
+          state: closed
