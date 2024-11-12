@@ -1,39 +1,38 @@
-name: Auto Close Issue After 5 or More Submissions
+name: Check Daily Submissions
 
 on:
   push:
-    paths:
-      - '**/*.py'  # Trigger when any Python file (*.py) is uploaded in any folder
+    branches:
+      - main
 
 jobs:
-  check_submissions:
+  check-submissions:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
-      - name: Count the number of Python files
+      - name: Check for each member's submission
+        id: check_files
         run: |
-          # Define the minimum number of submissions required (5 members)
-          MIN_SUBMISSIONS=5
-
-          # Count the number of Python files in the repository
-          FILE_COUNT=$(find . -name "*.py" | wc -l)
-
-          # If the number of files is greater than or equal to MIN_SUBMISSIONS
-          if [ "$FILE_COUNT" -ge "$MIN_SUBMISSIONS" ]; then
-            echo "At least $MIN_SUBMISSIONS members have submitted their work. Closing issue..."
-            
-            # Close the issue by checking the number of open issues
-            ISSUE_NUMBER=$(curl -s "https://api.github.com/repos/${{ github.repository }}/issues?state=open" | jq '.[0].number')
-            
-            # Check if an issue was found and close it
-            if [ -n "$ISSUE_NUMBER" ]; then
-              curl -X PATCH "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER" \
-                -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                -d '{"state": "closed"}'
+          day_folder="Day-${{ github.event.issue.number }}"
+          members=("user1" "user2" "user3" "user4" "user5")
+          all_files_present=true
+          
+          for member in "${members[@]}"; do
+            if ! ls "${day_folder}" | grep -q "$member"; then
+              all_files_present=false
+              break
             fi
-          else
-            echo "Not enough members have submitted their work. Current count: $FILE_COUNT"
-          fi
+          done
+
+          echo "::set-output name=all_files_present::$all_files_present"
+
+      - name: Close issue if all files are present
+        if: steps.check_files.outputs.all_files_present == 'true'
+        uses: peter-evans/close-issue@v2
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          comment: "All members have uploaded their files. Marking this issue as complete. ✅"
+          state: closed
