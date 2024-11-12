@@ -47,3 +47,4 @@ guys = 10
 guys %= 3                #now printing guys = 10/3 remainder=1
                          #another way is (guys = guys%3)
 print(guys)
+
