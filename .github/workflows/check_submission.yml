@@ -3,7 +3,7 @@ name: Check Daily Submissions
 on:
   issues:
     types: [labeled]  # This ensures the workflow triggers when a label is added to an issue.
-                      # Instead of scanning everyday at a certain time
+                      # Instead of scanning everyday at a certain time this automatically triggers when all members have submitted their work.
 
 jobs:
   check-submissions:
