@@ -19,7 +19,7 @@ jobs:
         id: get_day
         run: |
           # Get the labels for the current issue from GitHub context
-          labels="${{ github.event.issue.labels }}"
+          labels="${{ github.event.issue.labels }}"  # This will fetch the issue labels in JSON format
           
           # Extract the day number from the label in the format "Day-X"
           day_label=$(echo "$labels" | jq -r '.[] | select(.name | test("^Day-[0-9]+$")) | .name')
