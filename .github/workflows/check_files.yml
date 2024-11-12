@@ -1,42 +1,6 @@
-name: Auto Close Issue on File Upload
-
-on:
-  push:
-    branches:
-      - main  # or your default branch name
-  pull_request:
-    types: [closed]
-  issues:
-    types: [reopened]
-
-jobs:
-  check-and-close:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      issues: write
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Check folder contents and close issue
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const fs = require('fs');
-            const path = require('path');
-            
-            function countFiles(dirPath) {
-              try {
-                const files = fs.readdirSync(dirPath);
-                return files.filter(file => fs.statSync(path.join(dirPath, file)).isFile()).length;
-              } catch (error) {
-                return 0;
-              }
-            }
-            
-            const dirs = fs.readdirSync('.').filter(dir => /^Day[ -]?\d+$/.test(dir));
+// ... (previous code remains same until script section)
+      script: |
+            // ... (previous functions remain same)
             
             for (const dir of dirs) {
               const fileCount = countFiles(dir);
@@ -47,17 +11,37 @@ jobs:
                 const dayNumber = dir.match(/\d+/)[0];
                 
                 try {
-                  console.log(`Searching for issues labeled Day-${dayNumber} or Day ${dayNumber}`);
+                  // First, let's list all labels in the repository to debug
+                  console.log(`Getting all labels in the repository...`);
+                  const allLabels = await github.rest.issues.listLabelsForRepo({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo
+                  });
+                  console.log('Available labels:', allLabels.data.map(l => l.name));
+
+                  // Now search for issues
+                  console.log(`Searching for issues with Day-${dayNumber}`);
                   const issues = await github.rest.issues.listForRepo({
                     owner: context.repo.owner,
                     repo: context.repo.repo,
-                    state: 'open',
-                    labels: [`Day-${dayNumber}`, `Day ${dayNumber}`]
+                    state: 'open'
                   });
                   
-                  console.log(`Found ${issues.data.length} matching issues`);
+                  // Filter issues that have matching labels
+                  const matchingIssues = issues.data.filter(issue => {
+                    const issueLabels = issue.labels.map(label => label.name);
+                    console.log(`Issue #${issue.number} has labels:`, issueLabels);
+                    return issueLabels.some(label => 
+                      label === `Day-${dayNumber}` || 
+                      label === `Day ${dayNumber}` ||
+                      label.toLowerCase() === `day-${dayNumber}`.toLowerCase() ||
+                      label.toLowerCase() === `day ${dayNumber}`.toLowerCase()
+                    );
+                  });
                   
-                  for (const issue of issues.data) {
+                  console.log(`Found ${matchingIssues.length} matching issues`);
+                  
+                  for (const issue of matchingIssues) {
                     console.log(`Closing issue #${issue.number}`);
                     await github.rest.issues.update({
                       owner: context.repo.owner,
@@ -75,7 +59,8 @@ jobs:
                     });
                   }
                 } catch (error) {
-                  console.error(`Error processing ${dir}: ${error.message}`);
+                  console.error(`Error processing ${dir}:`, error);
+                  console.error('Full error:', JSON.stringify(error, null, 2));
                 }
               }
             }
