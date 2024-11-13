@@ -26,9 +26,9 @@ for color in colors:
 
 # Loop with index using enumerate
 for index, color in enumerate(colors):
-    print(f"Color at index {index} is {color}")
+    print(index, color)
 # Output:
-# Color at index 0 is red
-# Color at index 1 is blue
-# Color at index 2 is green
-# Color at index 3 is yellow
+# 0 red
+# 1 blue
+# 2 green
+# 3 yellow
