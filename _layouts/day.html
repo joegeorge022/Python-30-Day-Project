@@ -2,31 +2,45 @@
 layout: default
 ---
 <article class="day-content">
+  {% assign day_number = page.path | split: "-" | last | split: "/" | first %}
+  
   <header class="day-header">
-    <h1>{{ page.title }}</h1>
-    {% if page.description %}
-    <p class="day-description">{{ page.description }}</p>
-    {% endif %}
+    {{ content | split: "##" | first }}
   </header>
 
-  {% if page.toc %}
-  <div class="toc">
-    <h2>Contents</h2>
-    {% include toc.html html=content %}
-  </div>
-  {% endif %}
-
   <div class="day-body">
-    {{ content }}
+    {% assign sections = content | split: "##" %}
+    {% for section in sections offset:1 %}
+      <section class="task-section">
+        <h2>{{ section | split: "**Description**:" | first }}</h2>
+        
+        {% if section contains "**Description**:" %}
+          <div class="description">
+            {{ section | split: "**Description**:" | last | split: "**Example**:" | first | markdownify }}
+          </div>
+        {% endif %}
+
+        {% if section contains "**Example**:" %}
+          <div class="example">
+            <h3>Example:</h3>
+            {{ section | split: "**Example**:" | last | markdownify }}
+          </div>
+        {% endif %}
+      </section>
+    {% endfor %}
   </div>
 
   <footer class="day-footer">
     <div class="navigation">
-      {% if page.previous %}
-      <a href="{{ page.previous.url }}" class="prev">&larr; Previous Day</a>
+      {% assign prev_day = day_number | minus: 1 %}
+      {% assign next_day = day_number | plus: 1 %}
+      
+      {% if prev_day >= 0 %}
+        <a href="{{ site.baseurl }}/Day-{{ prev_day }}" class="prev">&larr; Previous Day</a>
       {% endif %}
-      {% if page.next %}
-      <a href="{{ page.next.url }}" class="next">Next Day &rarr;</a>
+      
+      {% if next_day <= 30 %}
+        <a href="{{ site.baseurl }}/Day-{{ next_day }}" class="next">Next Day &rarr;</a>
       {% endif %}
     </div>
   </footer>

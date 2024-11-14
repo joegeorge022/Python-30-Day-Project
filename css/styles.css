@@ -217,26 +217,21 @@ header {
 }
 
 ::-webkit-scrollbar {
-    width: 12px;
-    background: rgba(15, 30, 23, 0.3);
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(15, 30, 23, 0.1);
 }
 
 ::-webkit-scrollbar-thumb {
     background: linear-gradient(
         to bottom,
         rgba(100, 184, 151, 0.3),
-        rgba(100, 184, 151, 0.5)
+        rgba(45, 90, 74, 0.5)
     );
-    border-radius: 6px;
-    border: 3px solid rgba(15, 30, 23, 0.3);
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(
-        to bottom,
-        rgba(100, 184, 151, 0.5),
-        rgba(100, 184, 151, 0.7)
-    );
+    border-radius: 5px;
+    border: 2px solid rgba(15, 30, 23, 0.1);
 }
 
 .team-members {
@@ -249,7 +244,6 @@ header {
     color: #64b897;
     margin-bottom: 10px;
     text-shadow: 0 0 10px rgba(100, 184, 151, 0.6);
-    animation: float 5s ease-in-out infinite;
 }
 
 .members {
@@ -749,4 +743,32 @@ body::before {
     0% { transform: translateY(0px); }
     50% { transform: translateY(-10px); }
     100% { transform: translateY(0px); }
+}
+
+.day {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(100, 184, 151, 0.15);
+}
+
+.day:hover {
+    transform: translateY(-5px);
+    border-color: rgba(100, 184, 151, 0.4);
+    box-shadow: 
+        0 12px 30px rgba(0, 0, 0, 0.2),
+        0 4px 8px rgba(0, 0, 0, 0.1),
+        0 0 20px rgba(100, 184, 151, 0.1);
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(rgba(100, 184, 151, 0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(100, 184, 151, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+    z-index: -1;
 }
