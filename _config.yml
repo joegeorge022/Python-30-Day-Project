@@ -1,76 +1,29 @@
+# Theme Configuration
 theme: jekyll-theme-cayman
 remote_theme: pages-themes/cayman@v0.2.0
 
-# Site Settings
-title: Python 30-Day Project
-description: A comprehensive 30-day journey to learn Python programming
-url: https://joegeorge022.github.io/Python-30-Day-Project
-baseurl: ""
-
-# SEO and Social
-author: Joe George
-social:
-  name: Python 30-Day Project
-  links:
-    - https://github.com/joegeorge022/Python-30-Day-Project
-
 # Build Settings
 markdown: kramdown
-plugins:
-  - jekyll-remote-theme
-  - jekyll-seo-tag
-  - jekyll-sitemap
-  - jekyll-feed
-  - jekyll-optional-front-matter
-  - jekyll-titles-from-headings
-  - jekyll-readme-index
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
 
-# Exclude Files
-exclude:
-  - Gemfile
-  - Gemfile.lock
-  - node_modules
-  - vendor
-  - .git
-  - README.md
-  - CONTRIBUTING.md
-  - LICENSE
-
-# Collections
-collections:
-  days:
-    output: true
-    permalink: /:collection/:path/
-
-# Defaults
+# Defaults for README files in Day folders
 defaults:
   - scope:
-      path: ""
-    values:
-      layout: "default"
-      image: /assets/images/default-social.png
-      author: "Python 30-Day Project Team"
-  - scope:
-      path: "_posts"
-      type: "posts"
-    values:
-      layout: "post"
-      comments: true
-  - scope:
-      path: "days"
+      path: "Day-*"
       type: "pages"
     values:
       layout: "day"
       toc: true
 
-# Markdown Processing
-kramdown:
-  input: GFM
-  syntax_highlighter: rouge
-  syntax_highlighter_opts:
-    css_class: 'highlight'
-    span:
-      line_numbers: false
-    block:
-      line_numbers: true
-      start_line: 1
+# Process README.md files
+readme_index:
+  enabled: true
+  remove_originals: false
+  with_frontmatter: true
+
+plugins:
+  - jekyll-remote-theme
+  - jekyll-seo-tag
+  - jekyll-readme-index
