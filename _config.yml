@@ -1,2 +1,43 @@
 theme: jekyll-theme-cayman
+remote_theme: pages-themes/cayman@v0.2.0
+
+title: Python 30-Day Project
+description: A comprehensive 30-day journey to learn Python programming
+url: https://joegeorge022.github.io/Python-30-Day-Project
+baseurl: ""
+
+author: Joe George
+social:
+  name: Python 30-Day Project
+  links:
+    - https://github.com/joegeorge022/Python-30-Day-Project
+
 markdown: kramdown
+plugins:
+  - jekyll-remote-theme
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-feed
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .git
+  - README.md
+  - CONTRIBUTING.md
+  - LICENSE
+
+collections:
+  days:
+    output: true
+    permalink: /:collection/:path/
+
+defaults:
+  - scope:
+      path: ""
+      type: "days"
+    values:
+      layout: "day"
+      author: "Python 30-Day Project Team"
