@@ -1,24 +1,31 @@
 theme: jekyll-theme-cayman
 remote_theme: pages-themes/cayman@v0.2.0
 
+# Site Settings
 title: Python 30-Day Project
 description: A comprehensive 30-day journey to learn Python programming
 url: https://joegeorge022.github.io/Python-30-Day-Project
 baseurl: ""
 
+# SEO and Social
 author: Joe George
 social:
   name: Python 30-Day Project
   links:
     - https://github.com/joegeorge022/Python-30-Day-Project
 
+# Build Settings
 markdown: kramdown
 plugins:
   - jekyll-remote-theme
   - jekyll-seo-tag
   - jekyll-sitemap
   - jekyll-feed
+  - jekyll-optional-front-matter
+  - jekyll-titles-from-headings
+  - jekyll-readme-index
 
+# Exclude Files
 exclude:
   - Gemfile
   - Gemfile.lock
@@ -29,15 +36,41 @@ exclude:
   - CONTRIBUTING.md
   - LICENSE
 
+# Collections
 collections:
   days:
     output: true
     permalink: /:collection/:path/
 
+# Defaults
 defaults:
   - scope:
       path: ""
-      type: "days"
+    values:
+      layout: "default"
+      image: /assets/images/default-social.png
+      author: "Python 30-Day Project Team"
+  - scope:
+      path: "_posts"
+      type: "posts"
+    values:
+      layout: "post"
+      comments: true
+  - scope:
+      path: "days"
+      type: "pages"
     values:
       layout: "day"
-      author: "Python 30-Day Project Team"
+      toc: true
+
+# Markdown Processing
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: 'highlight'
+    span:
+      line_numbers: false
+    block:
+      line_numbers: true
+      start_line: 1
