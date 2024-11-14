@@ -2,28 +2,31 @@
 theme: jekyll-theme-cayman
 remote_theme: pages-themes/cayman@v0.2.0
 
+# Site Settings
+title: Python 30-Day Project
+description: A comprehensive 30-day journey to learn Python programming
+
 # Build Settings
 markdown: kramdown
 kramdown:
   input: GFM
   syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: true
+      start_line: 1
 
-# Defaults for README files in Day folders
+# Defaults for README files
 defaults:
   - scope:
       path: "Day-*"
       type: "pages"
     values:
       layout: "day"
-      toc: true
-
-# Process README.md files
-readme_index:
-  enabled: true
-  remove_originals: false
-  with_frontmatter: true
+      is_day: true
 
 plugins:
   - jekyll-remote-theme
   - jekyll-seo-tag
   - jekyll-readme-index
+  
