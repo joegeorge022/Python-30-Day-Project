@@ -13,6 +13,19 @@ colors:
   background: "#1e1e1e"   # Dark background
   text: "#e6e6e6"         # Light text
   accent: "#6a9955"       # Sage green
+  hover: "#7fcaa9"        # Lighter forest green for hover states
+  code_bg: "#2a2a2a"      # Slightly lighter than background for code
+  border: "#3a3a3a"       # Subtle borders
+
+# UI Configuration
+ui:
+  header_style: "floating"  # Options: floating, fixed, transparent
+  nav_position: "top"       # Options: top, side
+  code_font: "Fira Code"    # Monospace font for code
+  body_font: "Inter"        # Main text font
+  animate: true             # Enable animations
+  dark_mode: true          # Force dark mode
+  code_copy: true          # Add copy button to code blocks
 
 # Build Settings
 markdown: kramdown
@@ -28,34 +41,31 @@ kramdown:
       line_numbers: false
     wrap: true
 
-# Page Defaults
-defaults:
-  - scope:
-      path: "Day-*"
-      type: "pages"
-    values:
-      layout: "day"
-      is_day: true
-      author: "Python Learning Team"
-      sidebar: true
-      toc: true          # Table of Contents
-      comments: true     # If you want to enable comments
-      search: true       # If you want to enable search
-      classes: 
-        - dark-theme
-        - forest-accent
-
 # Additional Features
 compress_html:
   clippings: all
   comments: all
   endings: all
   startings: [html, head, body]
+  blanklines: false
+  profile: false
 
-# Plugins
+# SEO Optimization
+twitter:
+  username: pythonproject
+  card: summary_large_image
+social:
+  name: Python 30-Day Project
+  links:
+    - https://github.com/yourusername/python-30-day
+    - https://twitter.com/pythonproject
+
+# Additional plugins
 plugins:
   - jekyll-remote-theme
   - jekyll-seo-tag
   - jekyll-readme-index
   - jekyll-sitemap
   - jekyll-feed
+  - jekyll-toc
+  - jekyll-github-metadata
