@@ -19,6 +19,3 @@ Output:
 ```plaintext
 I love Python
 ```
-
-## Try it yourself!
-Write your own print statement and see what happens! 
