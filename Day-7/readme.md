@@ -1,42 +1,45 @@
-# Day 6: Working with Lists
+# Day 7: Looping through Lists
 
 ## Task
-Understand and manipulate lists in Python.
+Practice using loops to iterate over items in a list.
 
 ## Description
-Lists are a versatile data structure in Python that allow you to store and manipulate an ordered collection of items. You can add, remove, and access items in a list, making them useful for a wide range of tasks. Lists are defined using square brackets `[]`, and items are separated by commas.
+Loops are useful for working with lists in Python, as they allow you to perform actions on each item in the list automatically. The `for` loop is commonly used to iterate over lists, making it easy to access each element in sequence.
 
 ## Key Concepts
-- **Creating Lists**: Define a list using square brackets.
-- **Accessing Elements**: Use indices to access specific items in a list.
-- **Adding Elements**: Use `append()` to add items at the end of the list.
-- **Removing Elements**: Use `remove()` to delete items from the list.
-- **List Length**: Use `len()` to find the number of items in a list.
+- **For Loops**: Use `for` loops to go through each item in a list.
+- **Range**: Use `range()` with loops to control the number of iterations.
+- **Enumerate**: Use `enumerate()` to get both the index and the value of each item in the list.
 
 ## Example
 ```python
-# Define a list of fruits
-fruits = ["apple", "banana", "cherry"]
+# Define a list of colors
+colors = ["red", "blue", "green", "yellow"]
 
-# Access and print the first item
-print("First fruit:", fruits[0])
-
-# Add a new fruit to the list
-fruits.append("orange")
-print("Fruits after adding orange:", fruits)
-
-# Remove a fruit from the list
-fruits.remove("banana")
-print("Fruits after removing banana:", fruits)
-
-# Find the number of items in the list
-print("Number of fruits:", len(fruits))
+# Loop through each color and print it
+for color in colors:
+    print("Color:", color)
 ```
 
-## Output
+Output:
 ```plaintext
-First fruit: apple
-Fruits after adding orange: ['apple', 'banana', 'cherry', 'orange']
-Fruits after removing banana: ['apple', 'cherry', 'orange']
-Number of fruits: 3
+Color: red
+Color: blue
+Color: green
+Color: yellow
+```
+
+Using enumerate:
+```python
+# Loop with index using enumerate
+for index, color in enumerate(colors):
+    print(f"Color at index {index} is {color}")
+```
+
+Output:
+```plaintext
+Color at index 0 is red
+Color at index 1 is blue
+Color at index 2 is green
+Color at index 3 is yellow
 ```
