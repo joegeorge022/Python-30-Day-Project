@@ -1,13 +1,20 @@
 # Day 2: Arithmetic Operations
+Learn the fundamental arithmetic operations in Python.
 
-## **Task**: Use arithmetic operations in Python.
+## Task
+Use arithmetic operations in Python.
 
-**Description**:
-Python allows you to perform arithmetic operations using various operators. The most common operators are addition (+), subtraction (-), multiplication (*), and division (/). 
+## Description
+Python provides several arithmetic operators for mathematical calculations:
+- Addition (+)
+- Subtraction (-)
+- Multiplication (*)
+- Division (/)
+- Exponentiation (**)
+- Modulus (%)
+- Floor Division (//)
 
-You can also use other operations such as exponentiation (**), modulus (%), and floor division (//).
-
-**Example**:
+## Example
 ```python
 # Declare two variables
 a = 10
@@ -30,3 +37,4 @@ print("Division:", division_result)         # Output: Division: 2.0
 print("Exponent:", exponent_result)         # Output: Exponent: 100000
 print("Modulus:", modulus_result)           # Output: Modulus: 0
 print("Floor Division:", floor_division_result) # Output: Floor Division: 2
+```
