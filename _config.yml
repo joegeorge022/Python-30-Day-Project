@@ -6,6 +6,14 @@ remote_theme: pages-themes/cayman@v0.2.0
 title: Python 30-Day Project
 description: A comprehensive 30-day journey to learn Python programming
 
+# Theme Customization
+colors:
+  primary: "#64b897"      # Forest green
+  secondary: "#2d3748"    # Dark slate
+  background: "#1e1e1e"   # Dark background
+  text: "#e6e6e6"         # Light text
+  accent: "#6a9955"       # Sage green
+
 # Build Settings
 markdown: kramdown
 kramdown:
@@ -15,8 +23,12 @@ kramdown:
     block:
       line_numbers: true
       start_line: 1
+      css_class: 'highlight'
+    span:
+      line_numbers: false
+    wrap: true
 
-# Defaults for README files
+# Page Defaults
 defaults:
   - scope:
       path: "Day-*"
@@ -24,8 +36,26 @@ defaults:
     values:
       layout: "day"
       is_day: true
+      author: "Python Learning Team"
+      sidebar: true
+      toc: true          # Table of Contents
+      comments: true     # If you want to enable comments
+      search: true       # If you want to enable search
+      classes: 
+        - dark-theme
+        - forest-accent
 
+# Additional Features
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  startings: [html, head, body]
+
+# Plugins
 plugins:
   - jekyll-remote-theme
   - jekyll-seo-tag
   - jekyll-readme-index
+  - jekyll-sitemap
+  - jekyll-feed
