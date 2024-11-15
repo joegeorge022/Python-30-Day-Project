@@ -6,36 +6,6 @@ remote_theme: pages-themes/cayman@v0.2.0
 title: Python 30-Day Project
 description: A comprehensive 30-day journey to learn Python programming
 
-# Theme Customization
-colors:
-  primary: "#64b897"      # Forest green
-  secondary: "#2d3748"    # Dark slate
-  background: "#1e1e1e"   # Dark background
-  text: "#e6e6e6"         # Light text
-  accent: "#6a9955"       # Sage green
-  hover: "#7fcaa9"        # Lighter forest green for hover states
-  code_bg: "#2a2a2a"      # Slightly lighter than background for code
-  border: "#3a3a3a"       # Subtle borders
-  gradient_start: "#1e1e1e"    # Dark background start
-  gradient_end: "#2d3748"      # Dark slate end
-  success: "#4caf50"          # Success messages
-  warning: "#ff9800"          # Warning messages
-  error: "#f44336"           # Error messages
-  info: "#2196f3"            # Info messages
-  link: "#7fcaa9"            # Link color
-  link_hover: "#64b897"      # Link hover color
-  selection: "#64b89733"     # Text selection color
-
-# UI Configuration
-ui:
-  header_style: "floating"  # Options: floating, fixed, transparent
-  nav_position: "top"       # Options: top, side
-  code_font: "Fira Code"    # Monospace font for code
-  body_font: "Inter"        # Main text font
-  animate: true             # Enable animations
-  dark_mode: true          # Force dark mode
-  code_copy: true          # Add copy button to code blocks
-
 # Build Settings
 markdown: kramdown
 kramdown:
@@ -45,19 +15,20 @@ kramdown:
     block:
       line_numbers: true
       start_line: 1
-      css_class: 'highlight'
-    span:
-      line_numbers: false
-    wrap: true
 
-# Additional Features
-compress_html:
-  clippings: all
-  comments: all
-  endings: all
-  startings: [html, head, body]
-  blanklines: false
-  profile: false
+# Defaults for README files
+defaults:
+  - scope:
+      path: "Day-*"
+      type: "pages"
+    values:
+      layout: "day"
+      is_day: true
+
+plugins:
+  - jekyll-remote-theme
+  - jekyll-seo-tag
+  - jekyll-readme-index
 
 # SEO Optimization
 twitter:
@@ -66,15 +37,6 @@ twitter:
 social:
   name: Python 30-Day Project
   links:
-    - https://github.com/yourusername/python-30-day
-    - https://twitter.com/pythonproject
+    - https://github.com/joegeorge022/Python-30-Day-Project
 
-# Additional plugins
-plugins:
-  - jekyll-remote-theme
-  - jekyll-seo-tag
-  - jekyll-readme-index
-  - jekyll-sitemap
-  - jekyll-feed
-  - jekyll-toc
-  - jekyll-github-metadata
+
