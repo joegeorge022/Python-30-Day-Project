@@ -1,13 +1,24 @@
-# Day 0: Print Function #1
-## **Task**: Use the print function to write code.
+# Day 0: Print Function
+Learn how to use Python's print function - your first step into programming!
 
-**Description**:
-The `print()` function prints the specified message to the screen or other standard output devices. The message can be a string or any other object; the object will be converted into a string before being displayed.
+## Task
+Write your first line of code using the `print()` function.
 
-**Example**:
+## Description
+The `print()` function displays messages on your screen. It can handle:
+- Text (strings)
+- Numbers
+- Variables
+- And more!
+
+## Example
 ```python
-# Using the print function
 print("I love Python")
-
-Output: 
+```
+Output:
+```plaintext
 I love Python
+```
+
+## Try it yourself!
+Write your own print statement and see what happens! 
