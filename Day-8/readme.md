@@ -1,31 +1,68 @@
-# Day 8: Using Loop Control Statements (break, continue, and pass)
+# Day 8: Loop Control Statements
+Master the use of `break`, `continue`, and `pass` in Python loops.
 
-## **Task**: Practice using `break`, `continue`, and `pass` in loops.
+## Task
+Practice using loop control statements to manage program flow.
 
-**Description**:
-Control statements can manage loop flow:
-- **`break`**: Exits the loop when a condition is met.
-- **`continue`**: Skips the current iteration and moves to the next.
-- **`pass`**: Does nothing; used as a placeholder.
+## Description
+Python provides three key loop control statements:
 
-**Example**:
+1. **`break`**
+   - Exits the loop immediately
+   - Used when a certain condition is met
+
+2. **`continue`**
+   - Skips the current iteration
+   - Continues with the next loop iteration
+
+3. **`pass`**
+   - Acts as a placeholder
+   - Does nothing when executed
+
+## Examples
+
+### Using break
 ```python
 numbers = [1, 2, 3, 4, 5, 6]
-
-# Using break
 for num in numbers:
     if num == 4:
         break
-    print(num)  # Output: 1, 2, 3
+    print(num)
+```
+Output:
+```plaintext
+1
+2
+3
+```
 
-# Using continue
+### Using continue
+```python
 for num in numbers:
     if num % 2 == 0:
         continue
-    print(num)  # Output: 1, 3, 5
+    print(num)
+```
+Output:
+```plaintext
+1
+3
+5
+```
 
-# Using pass
+### Using pass
+```python
 for num in numbers:
     if num == 3:
         pass
-    print(num)  # Output: 1, 2, 3, 4, 5, 6
+    print(num)
+```
+Output:
+```plaintext
+1
+2
+3
+4
+5
+6
+```
