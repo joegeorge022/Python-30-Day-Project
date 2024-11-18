@@ -21,11 +21,4 @@ while i<limit:
 print(L)
 print("Number of elements",len(L))
 
-s=["apple","orange"]
-print(s)
-
-
-s.remove("orange")
-print("After removing orange",s)
-
         
