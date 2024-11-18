@@ -1,4 +1,4 @@
-# Day 10: Introduction to Sets
+# Day 12: Introduction to Sets
 
 ## **Task**: Explore the unique and unordered nature of sets in Python.
 
