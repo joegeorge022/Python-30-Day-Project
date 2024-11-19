@@ -1,7 +1,6 @@
 /*This is done using Ai.*/
 
 
-
 body {
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     background: url('../images/image.jpg');
@@ -744,8 +743,3 @@ body::after {
     );
     transition: 0.5s;
 }
-
-.progress-link:hover::before {
-    left: 100%;
-}
-
