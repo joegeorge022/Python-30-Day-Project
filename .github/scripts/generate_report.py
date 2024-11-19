@@ -179,11 +179,38 @@ def generate_markdown_report(chart_data):
 def generate_report():
     students = [
         Student("Joe Martin", "JoeMartinRince", ["joe_m", "joe.m", "martin"]),
-        Student("Joe George", "joegeorge022", ["joe_g", "joeg", "george"]),
-        Student("Ganesh Chandran", "Ganesh-Chandran005", ["ganesh", "chandran"]),
-        Student("Job Thomas", "Jobthomas10", ["job", "thomas", "job_t"]),
-        Student("Indhu Subash", "IndhuSubash-2007", ["indhu", "subash"])
+        Student("Joe George", "joegeorge022", ["joe_g", "joe.g", "george"]),
+        Student("Ganesh Chandran", "Ganesh-Chandran005", [
+            "ganesh", 
+            "chandran",
+            "ganesh_c",
+            "ganesh.c",
+            "g_chandran",
+            "g.chandran",
+            "ganeshc",
+            "gchandran"
+        ]),
+        Student("Job Thomas", "Jobthomas10", [
+            "job", 
+            "thomas",
+            "job_t",
+            "job.t",
+            "j_thomas",
+            "j.thomas",
+            "jobt",
+            "jthomas"
+        ]),
+        Student("Indhu Subash", "IndhuSubash-2007", ["indhu", "subash", "indhu_s", "indhu.s"])
     ]
+
+    # Add debug logging for file matching
+    print("\nFile pattern matching debug:")
+    for student in students:
+        print(f"\nStudent: {student.full_name}")
+        print(f"GitHub username: {student.github_username}")
+        print("File patterns being checked:")
+        for pattern in student.file_prefixes:
+            print(f"  - {pattern}")
 
     day_folders = [d for d in os.listdir('.') if os.path.isdir(d) and d.lower().startswith('day')]
     day_folders.sort(key=lambda x: int(''.join(filter(str.isdigit, x))))
@@ -199,12 +226,7 @@ def generate_report():
         }
     }
 
-    print("Processing students:")
     for student in students:
-        print(f"\nStudent: {student.full_name}")
-        print(f"GitHub username: {student.github_username}")
-        print(f"File prefixes: {student.file_prefixes}")
-        
         student_data = {
             "total_files": 0,
             "completed_days": 0,
@@ -214,10 +236,11 @@ def generate_report():
             "detailed_daily_stats": {}
         }
 
+        print(f"\nProcessing files for {student.full_name}:")
         for folder in day_folders:
             files = count_student_files(folder, student)
             if files:
-                print(f"Found files in {folder}: {[f['name'] for f in files]}")
+                print(f"  Found in {folder}: {[f['name'] for f in files]}")
                 day_number = ''.join(filter(str.isdigit, folder))
                 day_key = f"Day {day_number}"
                 student_data["total_files"] += len(files)
@@ -235,7 +258,7 @@ def generate_report():
         completion_rate = (student_data["completed_days"] / len(day_folders)) * 100
         chart_data["completion_rates"][student.full_name] = completion_rate
         chart_data["student_progress"][student.full_name] = student_data
-        print(f"Completion rate for {student.full_name}: {completion_rate}%")
+        print(f"Completion rate: {completion_rate}%")
 
     print("\nFinal chart data:")
     print(f"Students in progress data: {list(chart_data['student_progress'].keys())}")
