@@ -21,48 +21,76 @@ class Student:
         self.submissions = defaultdict(list)
         self.activity_history = []
         
-        # Get first and last name
         name_parts = full_name.split()
         first_name = name_parts[0].lower()
         last_name = name_parts[-1].lower()
         
-        # Create more specific patterns to avoid conflicts
         self.file_prefixes.extend([
-            f"{first_name}_{last_name[0]}",  # joe_m
-            f"{first_name}.{last_name[0]}",  # joe.m
-            f"{first_name[0]}_{last_name}",  # j_martin
-            f"{first_name[0]}.{last_name}",  # j.martin
-            f"{last_name}_{first_name[0]}",  # martin_j
-            f"{last_name}.{first_name[0]}",  # martin.j
-            f"{first_name}{last_name[0]}",   # joem
-            f"{first_name[0]}{last_name}",   # jmartin
-            f"{last_name}{first_name[0]}",   # martinj
-            f"{first_name}_{last_name}",     # joe_martin
-            f"{first_name}.{last_name}",     # joe.martin
-            f"{last_name}_{first_name}",     # martin_joe
-            f"{last_name}.{first_name}"      # martin.joe
+            f"{first_name}_{last_name[0]}",  
+            f"{first_name}.{last_name[0]}",  
+            f"{first_name[0]}_{last_name}",  
+            f"{first_name[0]}.{last_name}",  
+            f"{last_name}_{first_name[0]}",  
+            f"{last_name}.{first_name[0]}",  
+            f"{first_name}{last_name[0]}",   
+            f"{first_name[0]}{last_name}",   
+            f"{last_name}{first_name[0]}",   
+            f"{first_name}_{last_name}",     
+            f"{first_name}.{last_name}",     
+            f"{last_name}_{first_name}",     
+            f"{last_name}.{first_name}"      
         ])
 
 def count_student_files(folder, student):
     files = []
     try:
+        print(f"\nChecking folder {folder} for {student.full_name}")
         for file in os.listdir(folder):
             file_path = os.path.join(folder, file)
             if os.path.isfile(file_path):
                 file_lower = file.lower()
                 normalized_filename = file_lower.replace('_', '.').replace(' ', '.')
                 
-                # Get file name without extension for matching
                 file_without_ext = os.path.splitext(normalized_filename)[0]
                 
-                # Check if any pattern matches exactly
+                print(f"  Checking file: {file}")
+                print(f"  Normalized name: {normalized_filename}")
+                print(f"  Name without extension: {file_without_ext}")
+                
+                if student.full_name == "Ganesh Chandran":
+                    if any(name in file_lower for name in ["ganesh", "chandran"]):
+                        print(f"  Match found for Ganesh Chandran: {file}")
+                        extension = os.path.splitext(file)[1].lower()
+                        files.append({
+                            "name": file,
+                            "path": file_path,
+                            "extension": extension,
+                            "stats": analyze_file(file_path),
+                            "git_history": get_file_git_history(file_path)
+                        })
+                        continue
+
+                elif student.full_name == "Job Thomas":
+                    if any(name in file_lower for name in ["job", "thomas"]):
+                        print(f"  Match found for Job Thomas: {file}")
+                        extension = os.path.splitext(file)[1].lower()
+                        files.append({
+                            "name": file,
+                            "path": file_path,
+                            "extension": extension,
+                            "stats": analyze_file(file_path),
+                            "git_history": get_file_git_history(file_path)
+                        })
+                        continue
+
                 if any(
-                    pattern == file_without_ext or  # Exact match
-                    f"{pattern}." in normalized_filename or  # Pattern with separator
-                    normalized_filename.startswith(f"{pattern}_") or  # Pattern at start
-                    normalized_filename.startswith(f"{pattern}.")  # Pattern at start with dot
+                    pattern == file_without_ext or
+                    f"{pattern}." in normalized_filename or
+                    normalized_filename.startswith(f"{pattern}_") or
+                    normalized_filename.startswith(f"{pattern}.")
                     for pattern in student.file_prefixes
                 ):
+                    print(f"  Match found for {student.full_name}: {file}")
                     extension = os.path.splitext(file)[1].lower()
                     files.append({
                         "name": file,
@@ -74,6 +102,14 @@ def count_student_files(folder, student):
                     
     except Exception as e:
         print(f"Error processing folder {folder}: {e}")
+    
+    if files:
+        print(f"Found {len(files)} files for {student.full_name} in {folder}:")
+        for f in files:
+            print(f"  - {f['name']}")
+    else:
+        print(f"No files found for {student.full_name} in {folder}")
+    
     return files
 
 def analyze_file(file_path):
@@ -203,7 +239,6 @@ def generate_report():
         Student("Indhu Subash", "IndhuSubash-2007", ["indhu", "subash", "indhu_s", "indhu.s"])
     ]
 
-    # Add debug logging for file matching
     print("\nFile pattern matching debug:")
     for student in students:
         print(f"\nStudent: {student.full_name}")
