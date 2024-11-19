@@ -251,6 +251,28 @@
                 </div>
             </div>
         </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="chart-container">
+                    <h3>Repository Activity Timeline</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="activityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="chart-container">
+                    <h3>Historical Progress</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="historicalChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -436,6 +458,72 @@
             });
             
             return timeline;
+        }
+
+        function initializeHistoricalCharts(data) {
+            // Activity Timeline Chart
+            const activityCtx = document.getElementById('activityChart').getContext('2d');
+            new Chart(activityCtx, {
+                type: 'line',
+                data: {
+                    labels: Object.keys(data.repository_activity.activity_timeline),
+                    datasets: [{
+                        label: 'Daily Commits',
+                        data: Object.values(data.repository_activity.activity_timeline),
+                        borderColor: '#36A2EB',
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'day'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Contribution History Chart
+            const historyCtx = document.getElementById('historicalChart').getContext('2d');
+            const datasets = Object.entries(data.repository_activity.contribution_history)
+                .map(([author, commits], index) => ({
+                    label: author,
+                    data: Object.entries(commits).map(([date, count]) => ({
+                        x: date,
+                        y: count
+                    })),
+                    borderColor: getColorForIndex(index),
+                    fill: false
+                }));
+
+            new Chart(historyCtx, {
+                type: 'line',
+                data: {
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'day'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function getColorForIndex(index) {
+            const colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'];
+            return colors[index % colors.length];
         }
     </script>
 </body>
