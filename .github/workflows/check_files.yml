@@ -3,7 +3,7 @@ name: Auto Close Issue on File Upload
 on:
   push:
     branches:
-      - main  # or your default branch name
+      - main  
   pull_request:
     types: [closed]
   issues:
