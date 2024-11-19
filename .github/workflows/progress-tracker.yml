@@ -13,6 +13,8 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Get full history
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -26,13 +28,19 @@ jobs:
     - name: Generate Progress Report
       run: python .github/scripts/generate_report.py
 
+    - name: Save Workflow Run Data
+      run: |
+        mkdir -p .github/workflows/logs
+        echo "{\"run_id\": \"$GITHUB_RUN_ID\", \"date\": \"$(date -u '+%Y-%m-%dT%H:%M:%SZ')\", \"trigger\": \"$GITHUB_EVENT_NAME\"}" >> .github/workflows/logs/run_$GITHUB_RUN_ID.json
+
     - name: Commit and Push Reports
       run: |
         git config user.name "GitHub Action"
         git config user.email "actions@github.com"
         git add Progress_Report.md
-        git add progress_report.html
+        git add progress_dashboard.html
         git add chart_data.json
-        git commit -m "Update progress reports [skip ci]" || echo "No changes to commit"
+        git add .github/historical_data/
+        git add .github/workflows/logs/
+        git commit -m "Update progress reports and historical data [skip ci]" || echo "No changes to commit"
         git push
-
