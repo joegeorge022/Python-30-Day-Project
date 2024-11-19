@@ -39,10 +39,10 @@ jobs:
     - name: Generate Progress Report
       run: |
         python .github/scripts/generate_report.py
-        # Ensure files exist before committing
-        touch Progress_Report.md
-        touch progress_dashboard.html
-        touch chart_data.json
+        echo "Content of chart_data.json:"
+        cat chart_data.json
+        echo "Content of Progress_Report.md:"
+        cat Progress_Report.md
 
     - name: Save Workflow Run Data
       run: |
