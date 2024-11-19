@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python 30-Day Project - Group 8 - Progress Dashboard</title>
+    <title>Python 30-Day Project - Progress Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -137,12 +137,49 @@
             font-size: 0.875rem;
             font-weight: 500;
         }
+
+        .nav-tabs {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-tabs .nav-link {
+            color: var(--muted-color);
+            border: none;
+            border-bottom: 2px solid transparent;
+            padding: 0.75rem 1rem;
+        }
+
+        .nav-tabs .nav-link:hover {
+            color: var(--text-color);
+            border-color: transparent;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: var(--accent-color);
+            background: none;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .badge {
+            padding: 0.35em 0.65em;
+            font-size: 0.75em;
+            font-weight: 600;
+            border-radius: 0.25rem;
+        }
+
+        .bg-success {
+            background-color: var(--success-color) !important;
+        }
+
+        .bg-danger {
+            background-color: #ef4444 !important;
+        }
     </style>
 </head>
 <body>
     <div class="dashboard-container">
         <div class="header">
-            <h1>Group-8 Python 30 Day Project Dashboard</h1>
+            <h1>Python 30-Day Project Dashboard</h1>
             <p class="last-updated">Last updated: <span id="lastUpdated"></span></p>
         </div>
 
@@ -213,8 +250,108 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="studentModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content" style="background-color: var(--secondary-color); color: var(--text-color);">
+                    <div class="modal-header border-bottom border-light">
+                        <h5 class="modal-title" id="studentName">Student Details</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-3">
+                                <div class="stats-card">
+                                    <h4>Total Lines</h4>
+                                    <h2 id="studentTotalLines">-</h2>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stats-card">
+                                    <h4>Functions</h4>
+                                    <h2 id="studentFunctions">-</h2>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stats-card">
+                                    <h4>Classes</h4>
+                                    <h2 id="studentClasses">-</h2>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stats-card">
+                                    <h4>Completion</h4>
+                                    <h2 id="studentCompletion">-</h2>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ul class="nav nav-tabs mb-4" id="studentDetailTabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="overview-tab" data-bs-toggle="tab" href="#overview">Overview</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="daily-tab" data-bs-toggle="tab" href="#daily">Daily Progress</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="files-tab" data-bs-toggle="tab" href="#files">Files</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="overview">
+                                <div class="chart-container">
+                                    <h3>Progress Overview</h3>
+                                    <div class="chart-wrapper">
+                                        <canvas id="studentProgressChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="daily">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Day</th>
+                                                <th>Files</th>
+                                                <th>Lines of Code</th>
+                                                <th>Comments</th>
+                                                <th>Functions</th>
+                                                <th>Classes</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="dailyProgressBody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="files">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Day</th>
+                                                <th>File Name</th>
+                                                <th>Lines</th>
+                                                <th>Functions</th>
+                                                <th>Classes</th>
+                                                <th>Size</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="fileDetailsBody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         async function loadDashboardData() {
             try {
@@ -335,6 +472,8 @@
             
             Object.entries(data.student_progress || {}).forEach(([name, progress]) => {
                 const row = document.createElement('tr');
+                row.style.cursor = 'pointer';
+                row.onclick = () => showStudentDetails(name, progress, data);
                 row.innerHTML = `
                     <td>${name}</td>
                     <td>${progress.total_files}</td>
@@ -350,6 +489,128 @@
                 `;
                 studentTableBody.appendChild(row);
             });
+        }
+
+        function showStudentDetails(name, progress, data) {
+            const modal = new bootstrap.Modal(document.getElementById('studentModal'));
+            document.getElementById('studentName').textContent = name;
+            
+            // Update summary stats
+            document.getElementById('studentTotalLines').textContent = progress.total_lines;
+            document.getElementById('studentCompletion').textContent = 
+                `${data.completion_rates[name].toFixed(1)}%`;
+            
+            let totalFunctions = 0;
+            let totalClasses = 0;
+            Object.values(progress.detailed_daily_stats).forEach(day => {
+                totalFunctions += day.functions;
+                totalClasses += day.classes;
+            });
+            document.getElementById('studentFunctions').textContent = totalFunctions;
+            document.getElementById('studentClasses').textContent = totalClasses;
+
+            // Update daily progress table
+            const dailyProgressBody = document.getElementById('dailyProgressBody');
+            dailyProgressBody.innerHTML = '';
+            
+            // Get all possible days
+            const allDays = Array.from({length: 30}, (_, i) => `Day ${i + 1}`);
+            
+            allDays.forEach(day => {
+                const stats = progress.detailed_daily_stats[day] || {
+                    files: 0,
+                    code_lines: 0,
+                    comment_lines: 0,
+                    functions: 0,
+                    classes: 0
+                };
+                
+                const row = document.createElement('tr');
+                const status = stats.files > 0 ? 
+                    '<span class="badge bg-success">Completed</span>' : 
+                    '<span class="badge bg-danger">Missing</span>';
+                    
+                row.innerHTML = `
+                    <td>${day}</td>
+                    <td>${stats.files}</td>
+                    <td>${stats.code_lines}</td>
+                    <td>${stats.comment_lines}</td>
+                    <td>${stats.functions}</td>
+                    <td>${stats.classes}</td>
+                    <td>${status}</td>
+                `;
+                dailyProgressBody.appendChild(row);
+            });
+
+            // Update file details table
+            const fileDetailsBody = document.getElementById('fileDetailsBody');
+            fileDetailsBody.innerHTML = '';
+            
+            Object.entries(progress.detailed_daily_stats).forEach(([day, stats]) => {
+                stats.file_details.forEach(file => {
+                    const row = document.createElement('tr');
+                    const size = (file.size / 1024).toFixed(2);
+                    row.innerHTML = `
+                        <td>${day}</td>
+                        <td>${file.name}</td>
+                        <td>${file.lines}</td>
+                        <td>${file.functions}</td>
+                        <td>${file.classes}</td>
+                        <td>${size} KB</td>
+                    `;
+                    fileDetailsBody.appendChild(row);
+                });
+            });
+
+            // Create progress chart
+            const ctx = document.getElementById('studentProgressChart').getContext('2d');
+            if (window.studentChart) {
+                window.studentChart.destroy();
+            }
+            window.studentChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Object.keys(progress.daily_submissions),
+                    datasets: [{
+                        label: 'Files Submitted',
+                        data: Object.values(progress.daily_submissions),
+                        borderColor: '#4f46e5',
+                        tension: 0.4,
+                        fill: true,
+                        backgroundColor: 'rgba(79, 70, 229, 0.1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#94a3b8'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#94a3b8'
+                            }
+                        }
+                    }
+                }
+            });
+
+            modal.show();
         }
 
         document.addEventListener('DOMContentLoaded', loadDashboardData);
