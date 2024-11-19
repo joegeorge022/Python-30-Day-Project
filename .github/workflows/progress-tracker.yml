@@ -20,15 +20,19 @@ jobs:
         python-version: '3.9'
 
     - name: Install Dependencies
-      run: pip install markdown
+      run: |
+        pip install markdown matplotlib
 
     - name: Generate Progress Report
       run: python .github/scripts/generate_report.py
 
-    - name: Commit and Push Progress Report
+    - name: Commit and Push Reports
       run: |
         git config user.name "GitHub Action"
         git config user.email "actions@github.com"
         git add Progress_Report.md
-        git commit -m "Update progress report [skip ci]" || echo "No changes to commit"
+        git add progress_report.html
+        git add chart_data.json
+        git commit -m "Update progress reports [skip ci]" || echo "No changes to commit"
         git push
+
