@@ -89,6 +89,40 @@ def get_file_git_history(file_path):
         print(f"Error getting git history for {file_path}: {e}")
         return []
 
+def process_daily_files(files):
+    """Process files for a single day."""
+    daily_stat = {
+        "total_lines": 0,
+        "code_lines": 0,
+        "comment_lines": 0,
+        "functions": 0,
+        "classes": 0,
+        "files": len(files),
+        "file_details": []
+    }
+    
+    for file in files:
+        stats = file["stats"]
+        daily_stat["total_lines"] += stats["lines"]
+        daily_stat["code_lines"] += stats["code_lines"]
+        daily_stat["comment_lines"] += stats["comment_lines"]
+        daily_stat["functions"] += stats["functions"]
+        daily_stat["classes"] += stats["classes"]
+        
+        daily_stat["file_details"].append({
+            "name": file["name"],
+            "path": file["path"],
+            "extension": file["extension"],
+            "lines": stats["lines"],
+            "code_lines": stats["code_lines"],
+            "comment_lines": stats["comment_lines"],
+            "functions": stats["functions"],
+            "classes": stats["classes"],
+            "size": stats["size_bytes"]
+        })
+    
+    return daily_stat
+
 def save_chart_data(chart_data):
     try:
         with open('chart_data.json', 'w', encoding='utf-8') as f:
