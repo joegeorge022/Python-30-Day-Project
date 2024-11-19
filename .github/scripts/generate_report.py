@@ -7,6 +7,12 @@ import subprocess
 import glob
 import re
 
+class DateTimeEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            return obj.isoformat()
+        return super().default(obj)
+
 class Student:
     def __init__(self, full_name, github_username, file_prefixes):
         self.full_name = full_name
@@ -15,54 +21,7 @@ class Student:
         self.submissions = defaultdict(list)
         self.activity_history = []
 
-def count_files_in_directory(directory):
-    """Count the number of files in a directory."""
-    try:
-        return len([f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))])
-    except FileNotFoundError:
-        return 0
-
-def get_git_history():
-    """Get complete git history for the repository."""
-    try:
-        git_log = subprocess.check_output([
-            'git', 'log', 
-            '--all',
-            '--format=%H|%an|%ae|%at|%s',
-            '--reverse'
-        ]).decode('utf-8').strip()
-        
-        commits = []
-        for line in git_log.split('\n'):
-            if line:
-                hash, author, email, timestamp, message = line.split('|')
-                commits.append({
-                    "hash": hash,
-                    "author": author,
-                    "email": email,
-                    "date": datetime.fromtimestamp(int(timestamp)).isoformat(),
-                    "message": message
-                })
-        return commits
-    except Exception as e:
-        print(f"Error getting git history: {e}")
-        return []
-
-def get_workflow_runs():
-    """Get GitHub Actions workflow run history."""
-    try:
-        workflow_logs = []
-        log_files = glob.glob('.github/workflows/logs/*.json')
-        for log_file in log_files:
-            with open(log_file, 'r') as f:
-                workflow_logs.append(json.load(f))
-        return workflow_logs
-    except Exception as e:
-        print(f"Error reading workflow logs: {e}")
-        return []
-
 def count_student_files(folder, student):
-    """Count files for a specific student in a given folder."""
     files = []
     try:
         for file in os.listdir(folder):
@@ -82,8 +41,30 @@ def count_student_files(folder, student):
         print(f"Error processing folder {folder}: {e}")
     return files
 
+def analyze_file(file_path):
+    stats = {
+        "lines": 0,
+        "code_lines": 0,
+        "comment_lines": 0,
+        "functions": 0,
+        "classes": 0,
+        "size_bytes": os.path.getsize(file_path)
+    }
+    
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+            stats["lines"] = len(content.splitlines())
+            stats["functions"] = len(re.findall(r'def \w+\s*\(', content))
+            stats["classes"] = len(re.findall(r'class \w+\s*[:\(]', content))
+            stats["comment_lines"] = len(re.findall(r'^\s*#.*$', content, re.MULTILINE))
+            stats["code_lines"] = stats["lines"] - stats["comment_lines"]
+    except Exception as e:
+        print(f"Error analyzing file {file_path}: {e}")
+    
+    return stats
+
 def get_file_git_history(file_path):
-    """Get git history for a specific file."""
     try:
         git_log = subprocess.check_output([
             'git', 'log',
@@ -108,351 +89,46 @@ def get_file_git_history(file_path):
         print(f"Error getting git history for {file_path}: {e}")
         return []
 
-def analyze_file(file_path):
-    """Analyze a single file for detailed statistics."""
-    stats = {
-        "lines": 0,
-        "code_lines": 0,
-        "comment_lines": 0,
-        "blank_lines": 0,
-        "functions": 0,
-        "classes": 0,
-        "size_bytes": os.path.getsize(file_path),
-        "last_modified": datetime.fromtimestamp(os.path.getmtime(file_path)).isoformat()
-    }
-    
-    try:
-        with open(file_path, 'r', encoding='utf-8') as f:
-            in_multiline_comment = False
-            for line in f:
-                stats["lines"] += 1
-                stripped = line.strip()
-                
-                if not stripped:
-                    stats["blank_lines"] += 1
-                    continue
-                
-                # Check for multiline comments
-                if stripped.startswith('"""') or stripped.startswith("'''"):
-                    in_multiline_comment = not in_multiline_comment
-                    stats["comment_lines"] += 1
-                    continue
-                
-                if in_multiline_comment:
-                    stats["comment_lines"] += 1
-                    continue
-                
-                # Check for single line comments
-                if stripped.startswith('#'):
-                    stats["comment_lines"] += 1
-                    continue
-                
-                # Count functions and classes
-                if stripped.startswith('def '):
-                    stats["functions"] += 1
-                elif stripped.startswith('class '):
-                    stats["classes"] += 1
-                
-                stats["code_lines"] += 1
-                
-    except Exception as e:
-        print(f"Error analyzing file {file_path}: {e}")
-    
-    return stats
-
-def save_historical_data(chart_data):
-    """Save current data as historical record."""
-    try:
-        # Create directory if it doesn't exist
-        os.makedirs('.github/historical_data', exist_ok=True)
-        
-        # Save today's data
-        date_str = datetime.now().strftime('%Y-%m-%d')
-        file_path = f'.github/historical_data/data_{date_str}.json'
-        
-        with open(file_path, 'w', encoding='utf-8') as f:
-            json.dump(chart_data, f, indent=2)
-
-        # Update the main chart data file
-        with open('chart_data.json', 'w', encoding='utf-8') as f:
-            json.dump(chart_data, f, indent=2)
-
-    except Exception as e:
-        print(f"Error saving historical data: {e}")
-
-def process_daily_files(files):
-    """Process files for a specific day."""
-    daily_stat = {
-        "files": len(files),
-        "total_lines": 0,
-        "code_lines": 0,
-        "comment_lines": 0,
-        "functions": 0,
-        "classes": 0,
-        "file_details": [],
-        "submission_time": None
-    }
-
-    for file in files:
-        stats = file["stats"]
-        daily_stat["file_details"].append({
-            "name": file["name"],
-            "lines": stats["lines"],
-            "code_lines": stats["code_lines"],
-            "comments": stats["comment_lines"],
-            "functions": stats["functions"],
-            "classes": stats["classes"],
-            "size": stats["size_bytes"],
-            "git_history": file["git_history"]
-        })
-        
-        daily_stat["total_lines"] += stats["lines"]
-        daily_stat["code_lines"] += stats["code_lines"]
-        daily_stat["comment_lines"] += stats["comment_lines"]
-        daily_stat["functions"] += stats["functions"]
-        daily_stat["classes"] += stats["classes"]
-
-        # Track latest submission time
-        if file["git_history"]:
-            latest_commit = max(commit["timestamp"] for commit in file["git_history"])
-            latest_commit = datetime.fromtimestamp(latest_commit)
-            if not daily_stat["submission_time"] or latest_commit > daily_stat["submission_time"]:
-                daily_stat["submission_time"] = latest_commit
-
-    return daily_stat
-
-def generate_markdown_report(chart_data):
-    """Generate a markdown progress report."""
-    report = [
-        "# Python 30-Day Project Progress Report\n",
-        f"*Last Updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}*\n\n",
-        "## Overall Progress\n",
-        "### Test Update - Checking Workflow\n"
-    ]
-
-    # Overall Statistics
-    total_submissions = sum(chart_data["daily_submissions"].values())
-    avg_completion = sum(chart_data["completion_rates"].values()) / len(chart_data["completion_rates"])
-    
-    report.extend([
-        f"- Total Submissions: {total_submissions}",
-        f"- Average Completion Rate: {avg_completion:.2f}%",
-        f"- Active Students: {len(chart_data['student_progress'])}",
-        f"- Total Days: {len(chart_data['daily_submissions'])}\n\n"
-    ])
-
-    # Student Progress
-    report.append("## Individual Progress\n")
-    for student_name, progress in chart_data["student_progress"].items():
-        report.extend([
-            f"### {student_name}\n",
-            f"- Files Submitted: {progress['total_files']}",
-            f"- Days Completed: {progress['completed_days']}",
-            f"- Completion Rate: {chart_data['completion_rates'][student_name]:.2f}%",
-            f"- Total Lines of Code: {progress['total_lines']}",
-            "#### Code Quality Metrics",
-            f"- Comments Ratio: {progress['code_quality']['comments_ratio']:.2f}%",
-            f"- Functions: {progress['code_quality']['functions_count']}",
-            f"- Classes: {progress['code_quality']['classes_count']}\n",
-            "#### File Types",
-        ])
-        
-        for ext, count in progress["file_types"].items():
-            report.append(f"- {ext}: {count}")
-        report.append("\n")
-
-    # Save only the current report
-    with open('Progress_Report.md', 'w', encoding='utf-8') as f:
-        f.write('\n'.join(report))
-
-def generate_report_index():
-    """Generate an index of all historical reports."""
-    reports_dir = '.github/reports'
-    reports = sorted(glob.glob(f'{reports_dir}/Progress_Report_*.md'), reverse=True)
-    
-    index = [
-        "# Progress Report History\n",
-        "*Click on a report to view its contents*\n\n"
-    ]
-    
-    for report in reports:
-        filename = os.path.basename(report)
-        timestamp = filename.replace('Progress_Report_', '').replace('.md', '')
-        date = datetime.strptime(timestamp, '%Y%m%d_%H%M%S').strftime('%Y-%m-%d %H:%M:%S')
-        index.append(f"- [{date}]({report})")
-    
-    with open(f'{reports_dir}/index.md', 'w', encoding='utf-8') as f:
-        f.write('\n'.join(index))
-
-def analyze_code_quality(file_path):
-    """Enhanced code analysis with advanced metrics."""
-    stats = {
-        "lines": 0,
-        "code_lines": 0,
-        "comment_lines": 0,
-        "functions": 0,
-        "classes": 0,
-        "complexity": 0,
-        "code_to_comment_ratio": 0,
-        "avg_function_length": 0,
-        "test_coverage": 0,
-        "best_practices_score": 0
-    }
-    
-    try:
-        with open(file_path, 'r', encoding='utf-8') as f:
-            content = f.read()
-            
-            # Calculate cyclomatic complexity
-            stats["complexity"] = content.count('if ') + content.count('while ') + content.count('for ')
-            
-            # Analyze function quality
-            functions = re.findall(r'def \w+\([^)]*\):', content)
-            if functions:
-                total_length = sum(len(re.findall(r'\n\s+[^\n]+', func)) for func in functions)
-                stats["avg_function_length"] = total_length / len(functions)
-            
-            # Check best practices
-            stats["best_practices_score"] = (
-                (content.count('try:') * 2) +  # Error handling
-                (content.count('def test_') * 3) +  # Unit tests
-                (content.count('"""') * 2) +  # Docstrings
-                (content.count('logging.') * 2)  # Logging
-            )
-            
-    except Exception as e:
-        print(f"Error in advanced analysis: {e}")
-    
-    return stats
-
-def analyze_competitive_edge(student_data):
-    """Calculate competitive advantages."""
-    edge_metrics = {
-        "code_efficiency": calculate_code_efficiency(student_data),
-        "learning_curve": analyze_learning_progression(student_data),
-        "innovation_score": measure_code_innovation(student_data),
-        "consistency_rating": evaluate_submission_consistency(student_data)
-    }
-    return edge_metrics
-
-def calculate_code_efficiency(data):
-    """Measure code efficiency based on complexity vs functionality."""
-    return {
-        "algorithmic_efficiency": data["code_quality"]["complexity"] / max(data["total_lines"], 1),
-        "function_density": data["code_quality"]["functions_count"] / max(data["total_lines"], 1),
-        "maintainability_index": calculate_maintainability(data)
-    }
-
-def analyze_learning_progression(data):
-    """Track improvement over time."""
-    daily_stats = data["detailed_daily_stats"]
-    progression = []
-    
-    for day, stats in sorted(daily_stats.items()):
-        quality_score = (
-            stats["functions"] * 2 +
-            stats["comment_lines"] / max(stats["total_lines"], 1) * 100 +
-            stats.get("best_practices_score", 0)
-        )
-        progression.append(quality_score)
-    
-    return {
-        "growth_rate": calculate_growth_rate(progression),
-        "consistency": calculate_consistency(progression),
-        "trend": analyze_trend(progression)
-    }
-
 def save_chart_data(chart_data):
-    """Save and validate chart data."""
     try:
-        # Ensure required keys exist
-        required_keys = [
-            'daily_submissions',
-            'completion_rates',
-            'student_progress',
-            'repository_activity'
-        ]
-        
-        for key in required_keys:
-            if key not in chart_data:
-                chart_data[key] = {}
-        
-        # Save data
         with open('chart_data.json', 'w', encoding='utf-8') as f:
-            json.dump(chart_data, f, indent=2)
-            
-        # Also save to historical data
-        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        with open(f'.github/historical_data/data_{timestamp}.json', 'w', encoding='utf-8') as f:
-            json.dump(chart_data, f, indent=2)
-            
-        print("Chart data saved successfully")
-        
+            json.dump(chart_data, f, indent=2, cls=DateTimeEncoder)
     except Exception as e:
         print(f"Error saving chart data: {e}")
         raise
 
+def generate_markdown_report(chart_data):
+    report = [
+        "# Python 30-Day Project Progress Report\n",
+        f"*Last Updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}*\n\n",
+        "## Overall Progress\n"
+    ]
+    
+    with open('Progress_Report.md', 'w', encoding='utf-8') as f:
+        f.write('\n'.join(report))
+
 def generate_report():
-    """Generate a detailed markdown progress report for each student."""
-    # Define students with their possible file name prefixes
     students = [
-        Student(
-            "Joe George",
-            "joegeorge022",
-            ["joe_g", "joeg", "george", "joe.g", "joegeorge"]
-        ),
-        Student(
-            "Joe Martin",
-            "JoeMartinRince",
-            ["joe_m", "joem", "martin", "joe.m", "joemartin"]
-        ),
-        Student(
-            "Ganesh Chandran",
-            "Ganesh-Chandran005",
-            ["ganesh", "chandran", "ganesh_c", "ganeshc"]
-        ),
-        Student(
-            "Job Thomas",
-            "Jobthomas10",
-            ["job", "thomas", "job_t", "jobt"]
-        ),
-        Student(
-            "Indhu Subash",
-            "IndhuSubash-2007",
-            ["indhu", "subash", "indhu_s", "indhus"]
-        )
+        Student("Joe Martin", "JoeMartinRince", ["joe_m", "joem", "martin"]),
+        Student("Ganesh Chandran", "Ganesh-Chandran005", ["ganesh", "chandran"]),
+        Student("Job Thomas", "Jobthomas10", ["job", "thomas", "job_t"]),
+        Student("Indhu Subash", "IndhuSubash-2007", ["indhu", "subash"])
     ]
 
-    # Get all Day folders
     day_folders = [d for d in os.listdir('.') if os.path.isdir(d) and d.lower().startswith('day')]
     day_folders.sort(key=lambda x: int(''.join(filter(str.isdigit, x))))
 
-    # Get repository history
-    git_history = get_git_history()
-    workflow_runs = get_workflow_runs()
-
-    # Initialize chart data
     chart_data = {
         "daily_submissions": defaultdict(int),
         "student_progress": {},
         "completion_rates": {},
         "language_distribution": defaultdict(int),
         "repository_activity": {
-            "commits": git_history,
-            "workflow_runs": workflow_runs,
             "activity_timeline": defaultdict(int),
             "contribution_history": defaultdict(lambda: defaultdict(int))
         }
     }
 
-    # Process historical data
-    for commit in git_history:
-        date = commit["date"][:10]  # Get just the date part
-        chart_data["repository_activity"]["activity_timeline"][date] += 1
-        author = commit["author"]
-        chart_data["repository_activity"]["contribution_history"][author][date] += 1
-
-    # Process each student's data
     for student in students:
         student_data = {
             "total_files": 0,
@@ -460,13 +136,6 @@ def generate_report():
             "daily_submissions": {},
             "file_types": defaultdict(int),
             "total_lines": 0,
-            "code_quality": {
-                "comments_ratio": 0,
-                "comment_lines": 0,  # Add this line
-                "functions_count": 0,
-                "classes_count": 0
-            },
-            "submission_timeline": [],
             "detailed_daily_stats": {}
         }
 
@@ -475,41 +144,23 @@ def generate_report():
             if files:
                 day_number = ''.join(filter(str.isdigit, folder))
                 day_key = f"Day {day_number}"
-                
                 student_data["total_files"] += len(files)
                 student_data["completed_days"] += 1
                 student_data["daily_submissions"][day_key] = len(files)
                 chart_data["daily_submissions"][day_key] += len(files)
-
-                # Detailed daily statistics
                 daily_stat = process_daily_files(files)
                 student_data["detailed_daily_stats"][day_key] = daily_stat
                 student_data["total_lines"] += daily_stat["total_lines"]
                 
-                # Update code quality metrics
-                student_data["code_quality"]["functions_count"] += daily_stat["functions"]
-                student_data["code_quality"]["classes_count"] += daily_stat["classes"]
-                student_data["code_quality"]["comment_lines"] += daily_stat["comment_lines"]
-                
-                # Track file types
                 for file in files:
                     student_data["file_types"][file["extension"]] += 1
                     chart_data["language_distribution"][file["extension"]] += 1
 
-        # Calculate completion rate and code quality metrics
         completion_rate = (student_data["completed_days"] / len(day_folders)) * 100
-        if student_data["total_lines"] > 0:
-            comments_ratio = (student_data["code_quality"]["comment_lines"] / 
-                            student_data["total_lines"]) * 100
-            student_data["code_quality"]["comments_ratio"] = comments_ratio
-
         chart_data["completion_rates"][student.full_name] = completion_rate
         chart_data["student_progress"][student.full_name] = student_data
 
-    # Save and validate chart data
     save_chart_data(chart_data)
-    
-    # Generate markdown report
     generate_markdown_report(chart_data)
 
 if __name__ == "__main__":
