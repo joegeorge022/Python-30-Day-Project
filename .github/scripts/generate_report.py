@@ -259,7 +259,7 @@ def generate_report():
     git_history = get_git_history()
     workflow_runs = get_workflow_runs()
 
-    # Initialize chart data with historical tracking
+    # Initialize chart data
     chart_data = {
         "daily_submissions": defaultdict(int),
         "student_progress": {},
@@ -290,6 +290,7 @@ def generate_report():
             "total_lines": 0,
             "code_quality": {
                 "comments_ratio": 0,
+                "comment_lines": 0,  # Add this line
                 "functions_count": 0,
                 "classes_count": 0
             },
@@ -316,6 +317,7 @@ def generate_report():
                 # Update code quality metrics
                 student_data["code_quality"]["functions_count"] += daily_stat["functions"]
                 student_data["code_quality"]["classes_count"] += daily_stat["classes"]
+                student_data["code_quality"]["comment_lines"] += daily_stat["comment_lines"]
                 
                 # Track file types
                 for file in files:
@@ -325,7 +327,7 @@ def generate_report():
         # Calculate completion rate and code quality metrics
         completion_rate = (student_data["completed_days"] / len(day_folders)) * 100
         if student_data["total_lines"] > 0:
-            comments_ratio = (student_data["code_quality"]["comments"] / 
+            comments_ratio = (student_data["code_quality"]["comment_lines"] / 
                             student_data["total_lines"]) * 100
             student_data["code_quality"]["comments_ratio"] = comments_ratio
 
