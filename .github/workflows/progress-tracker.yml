@@ -25,13 +25,26 @@ jobs:
       run: |
         pip install markdown matplotlib
 
+    - name: Create Required Directories
+      run: |
+        mkdir -p .github/workflows/logs
+        mkdir -p .github/historical_data
+        # Initialize with empty JSON if doesn't exist
+        [ ! -f .github/historical_data/initial_data.json ] && echo '{"initialization_date": "'$(date -u '+%Y-%m-%dT%H:%M:%SZ')'"}' > .github/historical_data/initial_data.json
+        [ ! -f .github/workflows/logs/workflow_init.json ] && echo '{"initialization_date": "'$(date -u '+%Y-%m-%dT%H:%M:%SZ')'"}' > .github/workflows/logs/workflow_init.json
+
     - name: Generate Progress Report
       run: python .github/scripts/generate_report.py
 
     - name: Save Workflow Run Data
       run: |
-        mkdir -p .github/workflows/logs
-        echo "{\"run_id\": \"$GITHUB_RUN_ID\", \"date\": \"$(date -u '+%Y-%m-%dT%H:%M:%SZ')\", \"trigger\": \"$GITHUB_EVENT_NAME\"}" >> .github/workflows/logs/run_$GITHUB_RUN_ID.json
+        echo "{
+          \"run_id\": \"$GITHUB_RUN_ID\",
+          \"date\": \"$(date -u '+%Y-%m-%dT%H:%M:%SZ')\",
+          \"trigger\": \"$GITHUB_EVENT_NAME\",
+          \"repository\": \"$GITHUB_REPOSITORY\",
+          \"workflow\": \"$GITHUB_WORKFLOW\"
+        }" > .github/workflows/logs/run_$GITHUB_RUN_ID.json
 
     - name: Commit and Push Reports
       run: |
