@@ -107,6 +107,119 @@ def get_file_git_history(file_path):
         print(f"Error getting git history for {file_path}: {e}")
         return []
 
+def analyze_file(file_path):
+    """Analyze a single file for detailed statistics."""
+    stats = {
+        "lines": 0,
+        "code_lines": 0,
+        "comment_lines": 0,
+        "blank_lines": 0,
+        "functions": 0,
+        "classes": 0,
+        "size_bytes": os.path.getsize(file_path),
+        "last_modified": datetime.fromtimestamp(os.path.getmtime(file_path)).isoformat()
+    }
+    
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            in_multiline_comment = False
+            for line in f:
+                stats["lines"] += 1
+                stripped = line.strip()
+                
+                if not stripped:
+                    stats["blank_lines"] += 1
+                    continue
+                
+                # Check for multiline comments
+                if stripped.startswith('"""') or stripped.startswith("'''"):
+                    in_multiline_comment = not in_multiline_comment
+                    stats["comment_lines"] += 1
+                    continue
+                
+                if in_multiline_comment:
+                    stats["comment_lines"] += 1
+                    continue
+                
+                # Check for single line comments
+                if stripped.startswith('#'):
+                    stats["comment_lines"] += 1
+                    continue
+                
+                # Count functions and classes
+                if stripped.startswith('def '):
+                    stats["functions"] += 1
+                elif stripped.startswith('class '):
+                    stats["classes"] += 1
+                
+                stats["code_lines"] += 1
+                
+    except Exception as e:
+        print(f"Error analyzing file {file_path}: {e}")
+    
+    return stats
+
+def save_historical_data(chart_data):
+    """Save current data as historical record."""
+    try:
+        # Create directory if it doesn't exist
+        os.makedirs('.github/historical_data', exist_ok=True)
+        
+        # Save today's data
+        date_str = datetime.now().strftime('%Y-%m-%d')
+        file_path = f'.github/historical_data/data_{date_str}.json'
+        
+        with open(file_path, 'w', encoding='utf-8') as f:
+            json.dump(chart_data, f, indent=2)
+
+        # Update the main chart data file
+        with open('chart_data.json', 'w', encoding='utf-8') as f:
+            json.dump(chart_data, f, indent=2)
+
+    except Exception as e:
+        print(f"Error saving historical data: {e}")
+
+def process_daily_files(files):
+    """Process files for a specific day."""
+    daily_stat = {
+        "files": len(files),
+        "total_lines": 0,
+        "code_lines": 0,
+        "comment_lines": 0,
+        "functions": 0,
+        "classes": 0,
+        "file_details": [],
+        "submission_time": None
+    }
+
+    for file in files:
+        stats = file["stats"]
+        daily_stat["file_details"].append({
+            "name": file["name"],
+            "lines": stats["lines"],
+            "code_lines": stats["code_lines"],
+            "comments": stats["comment_lines"],
+            "functions": stats["functions"],
+            "classes": stats["classes"],
+            "size": stats["size_bytes"],
+            "git_history": file["git_history"]
+        })
+        
+        daily_stat["total_lines"] += stats["lines"]
+        daily_stat["code_lines"] += stats["code_lines"]
+        daily_stat["comment_lines"] += stats["comment_lines"]
+        daily_stat["functions"] += stats["functions"]
+        daily_stat["classes"] += stats["classes"]
+
+        # Track latest submission time
+        if file["git_history"]:
+            latest_commit = max(commit["timestamp"] for commit in file["git_history"])
+            latest_commit = datetime.fromtimestamp(latest_commit)
+            if not daily_stat["submission_time"] or latest_commit > daily_stat["submission_time"]:
+                daily_stat["submission_time"] = latest_commit
+
+    return daily_stat
+
 def generate_report():
     """Generate a detailed markdown progress report for each student."""
     # Define students with their possible file name prefixes
