@@ -1,0 +1,561 @@
+{
+  "daily_submissions": {
+    "Day 1": 4,
+    "Day 0": 3,
+    "Day 2": 2,
+    "Day 3": 2,
+    "Day 4": 2,
+    "Day 5": 2,
+    "Day 6": 2,
+    "Day 7": 2,
+    "Day 8": 2,
+    "Day 9": 1
+  },
+  "student_progress": {
+    "Joe Martin": {
+      "total_files": 1,
+      "completed_days": 1,
+      "daily_submissions": {
+        "Day 1": 1
+      },
+      "file_types": {
+        ".py": 1
+      },
+      "total_lines": 15,
+      "detailed_daily_stats": {
+        "Day 1": {
+          "total_lines": 15,
+          "code_lines": 15,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "joe_m.py",
+              "path": "Day-1/joe_m.py",
+              "extension": ".py",
+              "lines": 15,
+              "code_lines": 15,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 304
+            }
+          ]
+        }
+      }
+    },
+    "Ganesh Chandran": {
+      "total_files": 9,
+      "completed_days": 9,
+      "daily_submissions": {
+        "Day 0": 1,
+        "Day 1": 1,
+        "Day 2": 1,
+        "Day 3": 1,
+        "Day 4": 1,
+        "Day 5": 1,
+        "Day 6": 1,
+        "Day 7": 1,
+        "Day 8": 1
+      },
+      "file_types": {
+        ".py": 9
+      },
+      "total_lines": 155,
+      "detailed_daily_stats": {
+        "Day 0": {
+          "total_lines": 5,
+          "code_lines": 5,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "ganesh.py",
+              "path": "Day-0/ganesh.py",
+              "extension": ".py",
+              "lines": 5,
+              "code_lines": 5,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 64
+            }
+          ]
+        },
+        "Day 1": {
+          "total_lines": 12,
+          "code_lines": 12,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "ganesh2.py",
+              "path": "Day-1/ganesh2.py",
+              "extension": ".py",
+              "lines": 12,
+              "code_lines": 12,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 283
+            }
+          ]
+        },
+        "Day 2": {
+          "total_lines": 21,
+          "code_lines": 21,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "GANESH3.py",
+              "path": "Day-2/GANESH3.py",
+              "extension": ".py",
+              "lines": 21,
+              "code_lines": 21,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 443
+            }
+          ]
+        },
+        "Day 3": {
+          "total_lines": 12,
+          "code_lines": 12,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "Ganesh3.py",
+              "path": "Day-3/Ganesh3.py",
+              "extension": ".py",
+              "lines": 12,
+              "code_lines": 12,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 245
+            }
+          ]
+        },
+        "Day 4": {
+          "total_lines": 27,
+          "code_lines": 27,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "ganesh4.py",
+              "path": "Day-4/ganesh4.py",
+              "extension": ".py",
+              "lines": 27,
+              "code_lines": 27,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 388
+            }
+          ]
+        },
+        "Day 5": {
+          "total_lines": 17,
+          "code_lines": 17,
+          "comment_lines": 0,
+          "functions": 1,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "ganesh5.py",
+              "path": "Day-5/ganesh5.py",
+              "extension": ".py",
+              "lines": 17,
+              "code_lines": 17,
+              "comment_lines": 0,
+              "functions": 1,
+              "classes": 0,
+              "size": 329
+            }
+          ]
+        },
+        "Day 6": {
+          "total_lines": 29,
+          "code_lines": 29,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "ganesh6.py",
+              "path": "Day-6/ganesh6.py",
+              "extension": ".py",
+              "lines": 29,
+              "code_lines": 29,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 574
+            }
+          ]
+        },
+        "Day 7": {
+          "total_lines": 11,
+          "code_lines": 11,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "Ganesh7.py",
+              "path": "Day-7/Ganesh7.py",
+              "extension": ".py",
+              "lines": 11,
+              "code_lines": 11,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 259
+            }
+          ]
+        },
+        "Day 8": {
+          "total_lines": 21,
+          "code_lines": 21,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "ganesh8.py",
+              "path": "Day-8/ganesh8.py",
+              "extension": ".py",
+              "lines": 21,
+              "code_lines": 21,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 400
+            }
+          ]
+        }
+      }
+    },
+    "Job Thomas": {
+      "total_files": 10,
+      "completed_days": 10,
+      "daily_submissions": {
+        "Day 0": 1,
+        "Day 1": 1,
+        "Day 2": 1,
+        "Day 3": 1,
+        "Day 4": 1,
+        "Day 5": 1,
+        "Day 6": 1,
+        "Day 7": 1,
+        "Day 8": 1,
+        "Day 9": 1
+      },
+      "file_types": {
+        ".py": 10
+      },
+      "total_lines": 154,
+      "detailed_daily_stats": {
+        "Day 0": {
+          "total_lines": 2,
+          "code_lines": 2,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "job.py",
+              "path": "Day-0/job.py",
+              "extension": ".py",
+              "lines": 2,
+              "code_lines": 2,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 50
+            }
+          ]
+        },
+        "Day 1": {
+          "total_lines": 17,
+          "code_lines": 17,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "job2.py",
+              "path": "Day-1/job2.py",
+              "extension": ".py",
+              "lines": 17,
+              "code_lines": 17,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 350
+            }
+          ]
+        },
+        "Day 2": {
+          "total_lines": 19,
+          "code_lines": 19,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "job2.py",
+              "path": "Day-2/job2.py",
+              "extension": ".py",
+              "lines": 19,
+              "code_lines": 19,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 436
+            }
+          ]
+        },
+        "Day 3": {
+          "total_lines": 15,
+          "code_lines": 15,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "job3.py",
+              "path": "Day-3/job3.py",
+              "extension": ".py",
+              "lines": 15,
+              "code_lines": 15,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 236
+            }
+          ]
+        },
+        "Day 4": {
+          "total_lines": 11,
+          "code_lines": 11,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "job4.py",
+              "path": "Day-4/job4.py",
+              "extension": ".py",
+              "lines": 11,
+              "code_lines": 11,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 243
+            }
+          ]
+        },
+        "Day 5": {
+          "total_lines": 9,
+          "code_lines": 9,
+          "comment_lines": 0,
+          "functions": 2,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "job5.py",
+              "path": "Day-5/job5.py",
+              "extension": ".py",
+              "lines": 9,
+              "code_lines": 9,
+              "comment_lines": 0,
+              "functions": 2,
+              "classes": 0,
+              "size": 142
+            }
+          ]
+        },
+        "Day 6": {
+          "total_lines": 11,
+          "code_lines": 11,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "job6.py",
+              "path": "Day-6/job6.py",
+              "extension": ".py",
+              "lines": 11,
+              "code_lines": 11,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 283
+            }
+          ]
+        },
+        "Day 7": {
+          "total_lines": 10,
+          "code_lines": 10,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "job7.py",
+              "path": "Day-7/job7.py",
+              "extension": ".py",
+              "lines": 10,
+              "code_lines": 10,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 193
+            }
+          ]
+        },
+        "Day 8": {
+          "total_lines": 25,
+          "code_lines": 25,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "job.8.py",
+              "path": "Day-8/job.8.py",
+              "extension": ".py",
+              "lines": 25,
+              "code_lines": 25,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 398
+            }
+          ]
+        },
+        "Day 9": {
+          "total_lines": 35,
+          "code_lines": 35,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "job9.py",
+              "path": "Day-9/job9.py",
+              "extension": ".py",
+              "lines": 35,
+              "code_lines": 35,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 925
+            }
+          ]
+        }
+      }
+    },
+    "Indhu Subash": {
+      "total_files": 2,
+      "completed_days": 2,
+      "daily_submissions": {
+        "Day 0": 1,
+        "Day 1": 1
+      },
+      "file_types": {
+        ".py": 2
+      },
+      "total_lines": 22,
+      "detailed_daily_stats": {
+        "Day 0": {
+          "total_lines": 6,
+          "code_lines": 6,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "indhu.py",
+              "path": "Day-0/indhu.py",
+              "extension": ".py",
+              "lines": 6,
+              "code_lines": 6,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 104
+            }
+          ]
+        },
+        "Day 1": {
+          "total_lines": 16,
+          "code_lines": 16,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "indhu_subash.py",
+              "path": "Day-1/indhu_subash.py",
+              "extension": ".py",
+              "lines": 16,
+              "code_lines": 16,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 315
+            }
+          ]
+        }
+      }
+    }
+  },
+  "completion_rates": {
+    "Joe Martin": 7.142857142857142,
+    "Ganesh Chandran": 64.28571428571429,
+    "Job Thomas": 71.42857142857143,
+    "Indhu Subash": 14.285714285714285
+  },
+  "language_distribution": {
+    ".py": 22
+  },
+  "repository_activity": {
+    "activity_timeline": {},
+    "contribution_history": {}
+  }
+}
