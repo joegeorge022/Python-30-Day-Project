@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Python 30-Day Project - Progress Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@2.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -19,7 +17,6 @@
         body {
             background-color: var(--primary-color);
             color: var(--text-color);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         .dashboard-container {
@@ -33,7 +30,6 @@
             border-radius: 10px;
             padding: 1.5rem;
             margin-bottom: 2rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .chart-wrapper {
@@ -46,89 +42,17 @@
             border-radius: 10px;
             padding: 1.5rem;
             margin-bottom: 1rem;
-            transition: transform 0.3s ease;
-        }
-
-        .stats-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .student-table {
-            background-color: var(--secondary-color);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .table {
-            color: var(--text-color);
-            margin-bottom: 0;
-        }
-
-        .table thead th {
-            background-color: var(--accent-color);
-            border: none;
-        }
-
-        .progress {
-            height: 10px;
-            background-color: var(--primary-color);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .header h1 {
-            color: var(--accent-color);
-            font-weight: bold;
-        }
-
-        .last-updated {
-            color: #95a5a6;
-            font-style: italic;
-        }
-
-        .chart-controls {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .chart-controls .btn-group {
-            background: rgba(20, 40, 30, 0.9);
-            padding: 10px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .chart-controls .btn {
-            background: linear-gradient(135deg, rgba(15, 30, 23, 0.85), rgba(20, 40, 30, 0.9));
-            border: 1px solid rgba(100, 184, 151, 0.2);
-            color: #64b897;
-            margin: 0 5px;
-            transition: all 0.3s ease;
-        }
-
-        .chart-controls .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(100, 184, 151, 0.2);
-            border-color: rgba(100, 184, 151, 0.5);
-        }
-
-        .chart-controls .btn.active {
-            background: rgba(100, 184, 151, 0.2);
-            color: #fff;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
 <body>
     <div class="dashboard-container">
-        <div class="header">
+        <div class="header text-center mb-4">
             <h1>Python 30-Day Project Dashboard</h1>
-            <p class="last-updated">Last updated: <span id="lastUpdated"></span></p>
+            <p>Last updated: <span id="lastUpdated"></span></p>
         </div>
 
+        <!-- Summary Stats -->
         <div class="row">
             <div class="col-md-3">
                 <div class="stats-card">
@@ -156,20 +80,7 @@
             </div>
         </div>
 
-        <div class="row mt-4">
-            <div class="col-12">
-                <div class="chart-controls">
-                    <div class="btn-group" role="group" aria-label="Chart Type Controls">
-                        <button type="button" class="btn btn-primary" data-chart-type="pie">Pie Chart</button>
-                        <button type="button" class="btn btn-primary" data-chart-type="bar">Bar Chart</button>
-                        <button type="button" class="btn btn-primary" data-chart-type="line">Line Chart</button>
-                        <button type="button" class="btn btn-primary" data-chart-type="radar">Radar Chart</button>
-                        <button type="button" class="btn btn-primary" data-chart-type="polarArea">Polar Area</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <!-- Main Charts -->
         <div class="row mt-4">
             <div class="col-md-6">
                 <div class="chart-container">
@@ -189,20 +100,10 @@
             </div>
         </div>
 
+        <!-- Student Table -->
         <div class="row mt-4">
             <div class="col-12">
                 <div class="chart-container">
-                    <h3>Submission Timeline</h3>
-                    <div class="chart-wrapper">
-                        <canvas id="timelineChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mt-4">
-            <div class="col-12">
-                <div class="student-table">
                     <table class="table table-hover">
                         <thead>
                             <tr>
@@ -213,395 +114,98 @@
                                 <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody id="studentTableBody">
-                            <!-- Will be populated by JavaScript -->
-                        </tbody>
+                        <tbody id="studentTableBody"></tbody>
                     </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mt-4">
-            <div class="col-12">
-                <div class="chart-container">
-                    <h3>Language Distribution</h3>
-                    <div class="chart-wrapper">
-                        <canvas id="languageChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mt-4">
-            <div class="col-12">
-                <div class="chart-container">
-                    <h3>Detailed Student Progress</h3>
-                    <div class="accordion" id="studentDetails">
-                        <!-- Will be populated by JavaScript -->
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mt-4">
-            <div class="col-12">
-                <div class="chart-container">
-                    <h3>Git Activity</h3>
-                    <div class="git-timeline">
-                        <!-- Will be populated by JavaScript -->
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mt-4">
-            <div class="col-12">
-                <div class="chart-container">
-                    <h3>Repository Activity Timeline</h3>
-                    <div class="chart-wrapper">
-                        <canvas id="activityChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mt-4">
-            <div class="col-12">
-                <div class="chart-container">
-                    <h3>Historical Progress</h3>
-                    <div class="chart-wrapper">
-                        <canvas id="historicalChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mt-4">
-            <div class="col-12">
-                <div class="chart-container">
-                    <h3>Performance Metrics</h3>
-                    <div class="chart-wrapper">
-                        <canvas id="performanceChart"></canvas>
-                    </div>
-                    <div class="metrics-summary">
-                        <div class="metric">
-                            <h4>Code Quality Score</h4>
-                            <div class="score" id="qualityScore">-</div>
-                        </div>
-                        <div class="metric">
-                            <h4>Complexity Rating</h4>
-                            <div class="score" id="complexityScore">-</div>
-                        </div>
-                        <div class="metric">
-                            <h4>Best Practices</h4>
-                            <div class="score" id="practicesScore">-</div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        let charts = {};
-
         async function loadDashboardData() {
             try {
                 const response = await fetch('./chart_data.json');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
                 const data = await response.json();
-                console.log('Loaded data:', data); // Debug log
                 
-                // Update summary stats
-                document.getElementById('totalSubmissions').textContent = 
-                    Object.values(data.daily_submissions || {}).reduce((a, b) => a + b, 0);
-                document.getElementById('avgCompletion').textContent = 
-                    `${(Object.values(data.completion_rates || {}).reduce((a, b) => a + b, 0) / 
-                    (Object.keys(data.completion_rates || {}).length || 1)).toFixed(1)}%`;
-                document.getElementById('activeDays').textContent = 
-                    Object.keys(data.daily_submissions || {}).length;
-                document.getElementById('totalStudents').textContent = 
-                    Object.keys(data.student_progress || {}).length;
-                document.getElementById('lastUpdated').textContent = 
-                    new Date().toLocaleString();
-
-                // Initialize charts
+                updateSummaryStats(data);
                 initializeCharts(data);
-                setupChartControls();
-                
-                // Create student details
-                const studentDetails = document.getElementById('studentTableBody');
-                studentDetails.innerHTML = ''; // Clear existing content
-                
-                Object.entries(data.student_progress || {}).forEach(([name, progress]) => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${name}</td>
-                        <td>${progress.total_files}</td>
-                        <td>${progress.completed_days}</td>
-                        <td>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" 
-                                     style="width: ${data.completion_rates[name]}%">
-                                </div>
-                            </div>
-                        </td>
-                        <td>${data.completion_rates[name].toFixed(1)}%</td>
-                    `;
-                    studentDetails.appendChild(row);
-                    
-                    // Create detailed view
-                    createDetailedStudentView(progress, name);
-                });
-
-                // Initialize historical charts
-                initializeHistoricalCharts(data);
-                
+                updateStudentTable(data);
             } catch (error) {
                 console.error('Error loading dashboard data:', error);
-                document.body.innerHTML += `
-                    <div class="alert alert-danger" role="alert">
-                        Error loading dashboard data. Please check the console for details.
-                    </div>
-                `;
             }
         }
 
+        function updateSummaryStats(data) {
+            document.getElementById('totalSubmissions').textContent = 
+                Object.values(data.daily_submissions || {}).reduce((a, b) => a + b, 0);
+            document.getElementById('avgCompletion').textContent = 
+                `${(Object.values(data.completion_rates || {}).reduce((a, b) => a + b, 0) / 
+                (Object.keys(data.completion_rates || {}).length || 1)).toFixed(1)}%`;
+            document.getElementById('activeDays').textContent = 
+                Object.keys(data.daily_submissions || {}).length;
+            document.getElementById('totalStudents').textContent = 
+                Object.keys(data.student_progress || {}).length;
+            document.getElementById('lastUpdated').textContent = 
+                new Date().toLocaleString();
+        }
+
         function initializeCharts(data) {
-            const chartConfigs = {
-                completion: {
-                    element: 'completionChart',
-                    data: {
-                        labels: Object.keys(data.completion_rates),
-                        datasets: [{
-                            data: Object.values(data.completion_rates),
-                            backgroundColor: [
-                                '#FF6384', '#36A2EB', '#FFCE56', 
-                                '#4BC0C0', '#9966FF', '#FF9F40'
-                            ]
-                        }]
-                    }
-                },
-                submission: {
-                    element: 'submissionChart',
-                    data: {
-                        labels: Object.keys(data.daily_submissions),
-                        datasets: [{
-                            label: 'Submissions',
-                            data: Object.values(data.daily_submissions),
-                            backgroundColor: '#36A2EB'
-                        }]
-                    }
-                }
-            };
-
-            Object.entries(chartConfigs).forEach(([key, config]) => {
-                const ctx = document.getElementById(config.element).getContext('2d');
-                charts[key] = new Chart(ctx, {
-                    type: 'bar',
-                    data: config.data,
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                            },
-                            title: {
-                                display: true,
-                                text: key.charAt(0).toUpperCase() + key.slice(1)
-                            }
-                        }
-                    }
-                });
-            });
-        }
-
-        function setupChartControls() {
-            document.querySelectorAll('.chart-controls .btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const chartType = this.dataset.chartType;
-                    updateChartTypes(chartType);
-                    
-                    // Update active button state
-                    document.querySelectorAll('.chart-controls .btn').forEach(btn => 
-                        btn.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-        }
-
-        function updateChartTypes(newType) {
-            Object.values(charts).forEach(chart => {
-                const data = chart.data;
-                chart.destroy();
-                
-                const newChart = new Chart(chart.canvas.getContext('2d'), {
-                    type: newType,
-                    data: data,
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'top',
-                            }
-                        },
-                        scales: newType === 'radar' ? {
-                            r: {
-                                beginAtZero: true
-                            }
-                        } : {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-                
-                charts[chart.canvas.id] = newChart;
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', loadDashboardData);
-
-        function createDetailedStudentView(studentData, studentName) {
-            const accordion = document.getElementById('studentDetails');
-            
-            const detailHtml = `
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" 
-                                data-bs-target="#collapse-${studentName.replace(/\s+/g, '-')}">
-                            ${studentName}
-                        </button>
-                    </h2>
-                    <div id="collapse-${studentName.replace(/\s+/g, '-')}" class="accordion-collapse collapse">
-                        <div class="accordion-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h4>Overall Statistics</h4>
-                                    <ul>
-                                        <li>Total Files: ${studentData.total_files}</li>
-                                        <li>Total Lines of Code: ${studentData.total_lines}</li>
-                                        <li>Languages Used: ${Object.keys(studentData.file_types).join(', ')}</li>
-                                    </ul>
-                                </div>
-                                <div class="col-md-6">
-                                    <h4>Daily Breakdown</h4>
-                                    <div class="daily-stats">
-                                        ${Object.entries(studentData.detailed_daily_stats)
-                                            .map(([day, stats]) => `
-                                                <div class="day-stat">
-                                                    <h5>${day}</h5>
-                                                    <p>Files: ${stats.files}</p>
-                                                    <p>Lines: ${stats.total_lines}</p>
-                                                    <p>Submitted: ${new Date(stats.submission_time).toLocaleString()}</p>
-                                                </div>
-                                            `).join('')}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            accordion.innerHTML += detailHtml;
-        }
-
-        function createGitTimeline(studentData) {
-            const timeline = document.createElement('div');
-            timeline.className = 'git-timeline';
-            
-            Object.entries(studentData.detailed_daily_stats).forEach(([day, stats]) => {
-                stats.file_details.forEach(file => {
-                    const commitList = document.createElement('div');
-                    commitList.className = 'commit-list';
-                    
-                    file.git_history.forEach(commit => {
-                        commitList.innerHTML += `
-                            <div class="commit-item">
-                                <div class="commit-date">${new Date(commit.timestamp).toLocaleDateString()}</div>
-                                <div class="commit-message">${commit.message}</div>
-                                <div class="commit-author">${commit.author}</div>
-                            </div>
-                        `;
-                    });
-                    
-                    timeline.appendChild(commitList);
-                });
-            });
-            
-            return timeline;
-        }
-
-        function initializeHistoricalCharts(data) {
-            const activityCtx = document.getElementById('activityChart').getContext('2d');
-            new Chart(activityCtx, {
-                type: 'line',
+            new Chart(document.getElementById('completionChart').getContext('2d'), {
+                type: 'bar',
                 data: {
-                    labels: Object.keys(data.repository_activity.activity_timeline),
+                    labels: Object.keys(data.completion_rates),
                     datasets: [{
-                        label: 'Daily Commits',
-                        data: Object.values(data.repository_activity.activity_timeline),
-                        borderColor: '#36A2EB',
-                        fill: false
+                        data: Object.values(data.completion_rates),
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
                     }]
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            type: 'time',
-                            time: {
-                                unit: 'day'
-                            }
-                        }
-                    }
+                    maintainAspectRatio: false
                 }
             });
 
-            // Contribution History Chart
-            const historyCtx = document.getElementById('historicalChart').getContext('2d');
-            const datasets = Object.entries(data.repository_activity.contribution_history)
-                .map(([author, commits], index) => ({
-                    label: author,
-                    data: Object.entries(commits).map(([date, count]) => ({
-                        x: date,
-                        y: count
-                    })),
-                    borderColor: getColorForIndex(index),
-                    fill: false
-                }));
-
-            new Chart(historyCtx, {
+            new Chart(document.getElementById('submissionChart').getContext('2d'), {
                 type: 'line',
                 data: {
-                    datasets: datasets
+                    labels: Object.keys(data.daily_submissions),
+                    datasets: [{
+                        label: 'Submissions',
+                        data: Object.values(data.daily_submissions),
+                        borderColor: '#36A2EB'
+                    }]
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            type: 'time',
-                            time: {
-                                unit: 'day'
-                            }
-                        }
-                    }
+                    maintainAspectRatio: false
                 }
             });
         }
 
-        function getColorForIndex(index) {
-            const colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'];
-            return colors[index % colors.length];
+        function updateStudentTable(data) {
+            const studentTableBody = document.getElementById('studentTableBody');
+            studentTableBody.innerHTML = '';
+            
+            Object.entries(data.student_progress || {}).forEach(([name, progress]) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${name}</td>
+                    <td>${progress.total_files}</td>
+                    <td>${progress.completed_days}</td>
+                    <td>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" 
+                                 style="width: ${data.completion_rates[name]}%">
+                            </div>
+                        </div>
+                    </td>
+                    <td>${data.completion_rates[name].toFixed(1)}%</td>
+                `;
+                studentTableBody.appendChild(row);
+            });
         }
+
+        document.addEventListener('DOMContentLoaded', loadDashboardData);
     </script>
 </body>
 </html> 
