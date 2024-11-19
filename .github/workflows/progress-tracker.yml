@@ -34,7 +34,12 @@ jobs:
         [ ! -f .github/workflows/logs/workflow_init.json ] && echo '{"initialization_date": "'$(date -u '+%Y-%m-%dT%H:%M:%SZ')'"}' > .github/workflows/logs/workflow_init.json
 
     - name: Generate Progress Report
-      run: python .github/scripts/generate_report.py
+      run: |
+        python .github/scripts/generate_report.py
+        # Ensure files exist before committing
+        touch Progress_Report.md
+        touch progress_dashboard.html
+        touch chart_data.json
 
     - name: Save Workflow Run Data
       run: |
@@ -53,7 +58,5 @@ jobs:
         git add Progress_Report.md
         git add progress_dashboard.html
         git add chart_data.json
-        git add .github/historical_data/
-        git add .github/workflows/logs/
-        git commit -m "Update progress reports and historical data [skip ci]" || echo "No changes to commit"
+        git commit -m "Update progress report [skip ci]" || echo "No changes to commit"
         git push
