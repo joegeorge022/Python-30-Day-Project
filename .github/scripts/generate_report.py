@@ -3,6 +3,15 @@ import markdown
 from datetime import datetime
 import json
 from collections import defaultdict
+import subprocess
+
+class Student:
+    def __init__(self, full_name, github_username, file_prefixes):
+        self.full_name = full_name
+        self.github_username = github_username
+        self.file_prefixes = file_prefixes
+        self.submissions = defaultdict(list)
+        self.activity_history = []
 
 def count_files_in_directory(directory):
     """Count the number of files in a directory."""
@@ -11,9 +20,34 @@ def count_files_in_directory(directory):
     except FileNotFoundError:
         return 0
 
+def get_git_history():
+    """Get complete git history for the repository."""
+    try:
+        git_log = subprocess.check_output([
+            'git', 'log', 
+            '--all',
+            '--format=%H|%an|%ae|%at|%s',
+            '--reverse'
+        ]).decode('utf-8').strip()
+        
+        commits = []
+        for line in git_log.split('\n'):
+            if line:
+                hash, author, email, timestamp, message = line.split('|')
+                commits.append({
+                    "hash": hash,
+                    "author": author,
+                    "email": email,
+                    "date": datetime.fromtimestamp(int(timestamp)).isoformat(),
+                    "message": message
+                })
+        return commits
+    except Exception as e:
+        print(f"Error getting git history: {e}")
+        return []
+
 def generate_report():
     """Generate a detailed markdown progress report for each student."""
-    # Define students with their possible file name prefixes
     students = [
         Student(
             "Joe George",
@@ -42,15 +76,12 @@ def generate_report():
         )
     ]
 
-    # Get all Day folders
     day_folders = [d for d in os.listdir('.') if os.path.isdir(d) and d.lower().startswith('day')]
     day_folders.sort(key=lambda x: int(''.join(filter(str.isdigit, x))))
 
-    # Get repository history
     git_history = get_git_history()
     workflow_runs = get_workflow_runs()
 
-    # Initialize chart data with historical tracking
     chart_data = {
         "daily_submissions": defaultdict(int),
         "student_progress": {},
@@ -64,14 +95,12 @@ def generate_report():
         }
     }
 
-    # Process historical data
     for commit in git_history:
-        date = commit["date"][:10]  # Get just the date part
+        date = commit["date"][:10]  
         chart_data["repository_activity"]["activity_timeline"][date] += 1
         author = commit["author"]
         chart_data["repository_activity"]["contribution_history"][author][date] += 1
 
-    # Process each student's data
     for student in students:
         student_data = {
             "total_files": 0,
@@ -99,21 +128,17 @@ def generate_report():
                 student_data["daily_submissions"][day_key] = len(files)
                 chart_data["daily_submissions"][day_key] += len(files)
 
-                # Detailed daily statistics
                 daily_stat = process_daily_files(files)
                 student_data["detailed_daily_stats"][day_key] = daily_stat
                 student_data["total_lines"] += daily_stat["total_lines"]
                 
-                # Update code quality metrics
                 student_data["code_quality"]["functions_count"] += daily_stat["functions"]
                 student_data["code_quality"]["classes_count"] += daily_stat["classes"]
                 
-                # Track file types
                 for file in files:
                     student_data["file_types"][file["extension"]] += 1
                     chart_data["language_distribution"][file["extension"]] += 1
 
-        # Calculate completion rate and code quality metrics
         completion_rate = (student_data["completed_days"] / len(day_folders)) * 100
         if student_data["total_lines"] > 0:
             comments_ratio = (student_data["code_quality"]["comments"] / 
@@ -123,7 +148,6 @@ def generate_report():
         chart_data["completion_rates"][student.full_name] = completion_rate
         chart_data["student_progress"][student.full_name] = student_data
 
-    # Save historical data
     save_historical_data(chart_data)
 
 if __name__ == "__main__":
