@@ -6,17 +6,23 @@
     <title>Python 30-Day Project - Progress Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #34495e;
-            --accent-color: #3498db;
-            --text-color: #ecf0f1;
+            --primary-color: #1a1f2c;
+            --secondary-color: #242a38;
+            --accent-color: #4f46e5;
+            --text-color: #e2e8f0;
+            --muted-color: #94a3b8;
+            --success-color: #22c55e;
+            --border-color: rgba(255, 255, 255, 0.1);
         }
 
         body {
             background-color: var(--primary-color);
             color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
         }
 
         .dashboard-container {
@@ -25,11 +31,69 @@
             margin: 0 auto;
         }
 
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header h1 {
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+        }
+
+        .last-updated {
+            color: var(--muted-color);
+            font-size: 0.9rem;
+        }
+
+        .stats-card {
+            background-color: var(--secondary-color);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .stats-card h4 {
+            color: var(--muted-color);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+        }
+
+        .stats-card h2 {
+            color: white;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
         .chart-container {
             background-color: var(--secondary-color);
-            border-radius: 10px;
+            border-radius: 1rem;
             padding: 1.5rem;
             margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-container h3 {
+            color: white;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
         }
 
         .chart-wrapper {
@@ -37,23 +101,52 @@
             position: relative;
         }
 
-        .stats-card {
-            background-color: var(--secondary-color);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
+        .table {
+            color: var(--text-color);
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background-color: rgba(79, 70, 229, 0.1);
+            color: white;
+            font-weight: 600;
+            border-bottom: 2px solid var(--accent-color);
+            padding: 1rem;
+        }
+
+        .table tbody td {
+            padding: 1rem;
+            vertical-align: middle;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .progress {
+            height: 0.5rem;
+            background-color: rgba(79, 70, 229, 0.1);
+            border-radius: 1rem;
+        }
+
+        .progress-bar {
+            background-color: var(--accent-color);
+            border-radius: 1rem;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
         }
     </style>
 </head>
 <body>
     <div class="dashboard-container">
-        <div class="header text-center mb-4">
+        <div class="header">
             <h1>Python 30-Day Project Dashboard</h1>
-            <p>Last updated: <span id="lastUpdated"></span></p>
+            <p class="last-updated">Last updated: <span id="lastUpdated"></span></p>
         </div>
 
-        <!-- Summary Stats -->
-        <div class="row">
+        <div class="row g-4">
             <div class="col-md-3">
                 <div class="stats-card">
                     <h4>Total Submissions</h4>
@@ -80,11 +173,10 @@
             </div>
         </div>
 
-        <!-- Main Charts -->
-        <div class="row mt-4">
+        <div class="row mt-4 g-4">
             <div class="col-md-6">
                 <div class="chart-container">
-                    <h3>Completion Rates</h3>
+                    <h3>Student Completion Rates</h3>
                     <div class="chart-wrapper">
                         <canvas id="completionChart"></canvas>
                     </div>
@@ -92,7 +184,7 @@
             </div>
             <div class="col-md-6">
                 <div class="chart-container">
-                    <h3>Daily Submissions</h3>
+                    <h3>Daily Submission Trends</h3>
                     <div class="chart-wrapper">
                         <canvas id="submissionChart"></canvas>
                     </div>
@@ -100,22 +192,24 @@
             </div>
         </div>
 
-        <!-- Student Table -->
         <div class="row mt-4">
             <div class="col-12">
                 <div class="chart-container">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Student</th>
-                                <th>Files Submitted</th>
-                                <th>Days Completed</th>
-                                <th>Progress</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="studentTableBody"></tbody>
-                    </table>
+                    <h3>Student Progress Overview</h3>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>Files Submitted</th>
+                                    <th>Days Completed</th>
+                                    <th style="width: 30%">Progress</th>
+                                    <th>Completion</th>
+                                </tr>
+                            </thead>
+                            <tbody id="studentTableBody"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -155,13 +249,39 @@
                 data: {
                     labels: Object.keys(data.completion_rates),
                     datasets: [{
+                        label: 'Completion Rate',
                         data: Object.values(data.completion_rates),
-                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+                        backgroundColor: '#4f46e5',
+                        borderRadius: 6
                     }]
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#94a3b8'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#94a3b8'
+                            }
+                        }
+                    }
                 }
             });
 
@@ -172,12 +292,39 @@
                     datasets: [{
                         label: 'Submissions',
                         data: Object.values(data.daily_submissions),
-                        borderColor: '#36A2EB'
+                        borderColor: '#4f46e5',
+                        tension: 0.4,
+                        fill: true,
+                        backgroundColor: 'rgba(79, 70, 229, 0.1)'
                     }]
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#94a3b8'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#94a3b8'
+                            }
+                        }
+                    }
                 }
             });
         }
