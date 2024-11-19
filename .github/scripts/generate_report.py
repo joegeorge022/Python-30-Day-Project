@@ -131,7 +131,6 @@ def analyze_file(file_path):
                     stats["blank_lines"] += 1
                     continue
                 
-                # Check for multiline comments
                 if stripped.startswith('"""') or stripped.startswith("'''"):
                     in_multiline_comment = not in_multiline_comment
                     stats["comment_lines"] += 1
@@ -141,12 +140,10 @@ def analyze_file(file_path):
                     stats["comment_lines"] += 1
                     continue
                 
-                # Check for single line comments
                 if stripped.startswith('#'):
                     stats["comment_lines"] += 1
                     continue
                 
-                # Count functions and classes
                 if stripped.startswith('def '):
                     stats["functions"] += 1
                 elif stripped.startswith('class '):
@@ -162,17 +159,14 @@ def analyze_file(file_path):
 def save_historical_data(chart_data):
     """Save current data as historical record."""
     try:
-        # Create directory if it doesn't exist
         os.makedirs('.github/historical_data', exist_ok=True)
         
-        # Save today's data
         date_str = datetime.now().strftime('%Y-%m-%d')
         file_path = f'.github/historical_data/data_{date_str}.json'
         
         with open(file_path, 'w', encoding='utf-8') as f:
             json.dump(chart_data, f, indent=2)
 
-        # Update the main chart data file
         with open('chart_data.json', 'w', encoding='utf-8') as f:
             json.dump(chart_data, f, indent=2)
 
@@ -211,7 +205,6 @@ def process_daily_files(files):
         daily_stat["functions"] += stats["functions"]
         daily_stat["classes"] += stats["classes"]
 
-        # Track latest submission time
         if file["git_history"]:
             latest_commit = max(commit["timestamp"] for commit in file["git_history"])
             latest_commit = datetime.fromtimestamp(latest_commit)
@@ -220,9 +213,67 @@ def process_daily_files(files):
 
     return daily_stat
 
+def generate_markdown_report(chart_data):
+    """Generate a markdown progress report."""
+    report = [
+        "# Python 30-Day Project Progress Report\n",
+        f"*Last Updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}*\n\n",
+        "## Overall Progress\n"
+    ]
+
+    total_submissions = sum(chart_data["daily_submissions"].values())
+    avg_completion = sum(chart_data["completion_rates"].values()) / len(chart_data["completion_rates"])
+    
+    report.extend([
+        f"- Total Submissions: {total_submissions}",
+        f"- Average Completion Rate: {avg_completion:.2f}%",
+        f"- Active Students: {len(chart_data['student_progress'])}",
+        f"- Total Days: {len(chart_data['daily_submissions'])}\n\n"
+    ])
+
+    report.append("## Individual Progress\n")
+    for student_name, progress in chart_data["student_progress"].items():
+        report.extend([
+            f"### {student_name}\n",
+            f"- Files Submitted: {progress['total_files']}",
+            f"- Days Completed: {progress['completed_days']}",
+            f"- Completion Rate: {chart_data['completion_rates'][student_name]:.2f}%",
+            f"- Total Lines of Code: {progress['total_lines']}",
+            "#### Code Quality Metrics",
+            f"- Comments Ratio: {progress['code_quality']['comments_ratio']:.2f}%",
+            f"- Functions: {progress['code_quality']['functions_count']}",
+            f"- Classes: {progress['code_quality']['classes_count']}\n",
+            "#### File Types",
+        ])
+        
+        for ext, count in progress["file_types"].items():
+            report.append(f"- {ext}: {count}")
+        report.append("\n")
+
+    with open('Progress_Report.md', 'w', encoding='utf-8') as f:
+        f.write('\n'.join(report))
+
+def generate_report_index():
+    """Generate an index of all historical reports."""
+    reports_dir = '.github/reports'
+    reports = sorted(glob.glob(f'{reports_dir}/Progress_Report_*.md'), reverse=True)
+    
+    index = [
+        "# Progress Report History\n",
+        "*Click on a report to view its contents*\n\n"
+    ]
+    
+    for report in reports:
+        filename = os.path.basename(report)
+        timestamp = filename.replace('Progress_Report_', '').replace('.md', '')
+        date = datetime.strptime(timestamp, '%Y%m%d_%H%M%S').strftime('%Y-%m-%d %H:%M:%S')
+        index.append(f"- [{date}]({report})")
+    
+    with open(f'{reports_dir}/index.md', 'w', encoding='utf-8') as f:
+        f.write('\n'.join(index))
+
 def generate_report():
     """Generate a detailed markdown progress report for each student."""
-    # Define students with their possible file name prefixes
     students = [
         Student(
             "Joe George",
@@ -251,15 +302,12 @@ def generate_report():
         )
     ]
 
-    # Get all Day folders
     day_folders = [d for d in os.listdir('.') if os.path.isdir(d) and d.lower().startswith('day')]
     day_folders.sort(key=lambda x: int(''.join(filter(str.isdigit, x))))
 
-    # Get repository history
     git_history = get_git_history()
     workflow_runs = get_workflow_runs()
 
-    # Initialize chart data
     chart_data = {
         "daily_submissions": defaultdict(int),
         "student_progress": {},
@@ -273,14 +321,12 @@ def generate_report():
         }
     }
 
-    # Process historical data
     for commit in git_history:
-        date = commit["date"][:10]  # Get just the date part
+        date = commit["date"][:10]  
         chart_data["repository_activity"]["activity_timeline"][date] += 1
         author = commit["author"]
         chart_data["repository_activity"]["contribution_history"][author][date] += 1
 
-    # Process each student's data
     for student in students:
         student_data = {
             "total_files": 0,
@@ -290,7 +336,7 @@ def generate_report():
             "total_lines": 0,
             "code_quality": {
                 "comments_ratio": 0,
-                "comment_lines": 0,  # Add this line
+                "comment_lines": 0,  
                 "functions_count": 0,
                 "classes_count": 0
             },
@@ -309,22 +355,18 @@ def generate_report():
                 student_data["daily_submissions"][day_key] = len(files)
                 chart_data["daily_submissions"][day_key] += len(files)
 
-                # Detailed daily statistics
                 daily_stat = process_daily_files(files)
                 student_data["detailed_daily_stats"][day_key] = daily_stat
                 student_data["total_lines"] += daily_stat["total_lines"]
                 
-                # Update code quality metrics
                 student_data["code_quality"]["functions_count"] += daily_stat["functions"]
                 student_data["code_quality"]["classes_count"] += daily_stat["classes"]
                 student_data["code_quality"]["comment_lines"] += daily_stat["comment_lines"]
                 
-                # Track file types
                 for file in files:
                     student_data["file_types"][file["extension"]] += 1
                     chart_data["language_distribution"][file["extension"]] += 1
 
-        # Calculate completion rate and code quality metrics
         completion_rate = (student_data["completed_days"] / len(day_folders)) * 100
         if student_data["total_lines"] > 0:
             comments_ratio = (student_data["code_quality"]["comment_lines"] / 
@@ -334,8 +376,9 @@ def generate_report():
         chart_data["completion_rates"][student.full_name] = completion_rate
         chart_data["student_progress"][student.full_name] = student_data
 
-    # Save historical data
     save_historical_data(chart_data)
+    
+    generate_markdown_report(chart_data)
 
 if __name__ == "__main__":
     generate_report()
