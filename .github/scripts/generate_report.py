@@ -1,19 +1,19 @@
 import os
-import json
 import markdown
 from datetime import datetime
+import json
 from collections import defaultdict
 
-# Define Student class first
-class Student:
-    def __init__(self, full_name, github_username, file_prefixes):
-        self.full_name = full_name
-        self.github_username = github_username
-        self.file_prefixes = file_prefixes
-        self.submissions = defaultdict(list)
+def count_files_in_directory(directory):
+    """Count the number of files in a directory."""
+    try:
+        return len([f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))])
+    except FileNotFoundError:
+        return 0
 
 def generate_report():
     """Generate a detailed markdown progress report for each student."""
+    # Define students with their possible file name prefixes
     students = [
         Student(
             "Joe George",
@@ -46,123 +46,85 @@ def generate_report():
     day_folders = [d for d in os.listdir('.') if os.path.isdir(d) and d.lower().startswith('day')]
     day_folders.sort(key=lambda x: int(''.join(filter(str.isdigit, x))))
 
-    # Initialize chart data
+    # Get repository history
+    git_history = get_git_history()
+    workflow_runs = get_workflow_runs()
+
+    # Initialize chart data with historical tracking
     chart_data = {
         "daily_submissions": defaultdict(int),
         "student_progress": {},
         "completion_rates": {},
-        "language_distribution": defaultdict(int)
+        "language_distribution": defaultdict(int),
+        "repository_activity": {
+            "commits": git_history,
+            "workflow_runs": workflow_runs,
+            "activity_timeline": defaultdict(int),
+            "contribution_history": defaultdict(lambda: defaultdict(int))
+        }
     }
 
-    # Process each student
+    # Process historical data
+    for commit in git_history:
+        date = commit["date"][:10]  # Get just the date part
+        chart_data["repository_activity"]["activity_timeline"][date] += 1
+        author = commit["author"]
+        chart_data["repository_activity"]["contribution_history"][author][date] += 1
+
+    # Process each student's data
     for student in students:
-        student_data = process_student_data(student, day_folders)
+        student_data = {
+            "total_files": 0,
+            "completed_days": 0,
+            "daily_submissions": {},
+            "file_types": defaultdict(int),
+            "total_lines": 0,
+            "code_quality": {
+                "comments_ratio": 0,
+                "functions_count": 0,
+                "classes_count": 0
+            },
+            "submission_timeline": [],
+            "detailed_daily_stats": {}
+        }
+
+        for folder in day_folders:
+            files = count_student_files(folder, student)
+            if files:
+                day_number = ''.join(filter(str.isdigit, folder))
+                day_key = f"Day {day_number}"
+                
+                student_data["total_files"] += len(files)
+                student_data["completed_days"] += 1
+                student_data["daily_submissions"][day_key] = len(files)
+                chart_data["daily_submissions"][day_key] += len(files)
+
+                # Detailed daily statistics
+                daily_stat = process_daily_files(files)
+                student_data["detailed_daily_stats"][day_key] = daily_stat
+                student_data["total_lines"] += daily_stat["total_lines"]
+                
+                # Update code quality metrics
+                student_data["code_quality"]["functions_count"] += daily_stat["functions"]
+                student_data["code_quality"]["classes_count"] += daily_stat["classes"]
+                
+                # Track file types
+                for file in files:
+                    student_data["file_types"][file["extension"]] += 1
+                    chart_data["language_distribution"][file["extension"]] += 1
+
+        # Calculate completion rate and code quality metrics
         completion_rate = (student_data["completed_days"] / len(day_folders)) * 100
+        if student_data["total_lines"] > 0:
+            comments_ratio = (student_data["code_quality"]["comments"] / 
+                            student_data["total_lines"]) * 100
+            student_data["code_quality"]["comments_ratio"] = comments_ratio
+
         chart_data["completion_rates"][student.full_name] = completion_rate
         chart_data["student_progress"][student.full_name] = student_data
 
-    # Save the chart data
-    with open('chart_data.json', 'w', encoding='utf-8') as f:
-        json.dump(chart_data, f, indent=2)
-
-def process_student_data(student, day_folders):
-    """Process data for a single student."""
-    student_data = {
-        "total_files": 0,
-        "completed_days": 0,
-        "daily_submissions": {},
-        "file_types": defaultdict(int),
-        "total_lines": 0,
-        "detailed_daily_stats": {}
-    }
-
-    for folder in day_folders:
-        files = get_student_files(folder, student)
-        if files:
-            day_number = ''.join(filter(str.isdigit, folder))
-            day_key = f"Day {day_number}"
-            
-            student_data["total_files"] += len(files)
-            student_data["completed_days"] += 1
-            student_data["daily_submissions"][day_key] = len(files)
-            
-            daily_stats = analyze_files(files)
-            student_data["detailed_daily_stats"][day_key] = daily_stats
-            student_data["total_lines"] += daily_stats["total_lines"]
-            
-            for ext in daily_stats["file_types"]:
-                student_data["file_types"][ext] += 1
-
-    return student_data
-
-def get_student_files(directory, student):
-    """Get files for a specific student in a directory."""
-    try:
-        files = []
-        for f in os.listdir(directory):
-            file_path = os.path.join(directory, f)
-            if not os.path.isfile(file_path):
-                continue
-            
-            lower_filename = f.lower()
-            if any(lower_filename.startswith(prefix.lower()) for prefix in student.file_prefixes):
-                files.append({
-                    "name": f,
-                    "path": file_path,
-                    "extension": os.path.splitext(f)[1].lower()
-                })
-        return files
-    except FileNotFoundError:
-        return []
-
-def analyze_files(files):
-    """Analyze a list of files."""
-    stats = {
-        "files": len(files),
-        "file_details": [],
-        "total_lines": 0,
-        "file_types": defaultdict(int)
-    }
-
-    for file in files:
-        file_stats = analyze_single_file(file["path"])
-        stats["file_details"].append({
-            "name": file["name"],
-            "lines": file_stats["lines"],
-            "code_lines": file_stats["code_lines"],
-            "comments": file_stats["comment_lines"],
-            "size": file_stats["size_bytes"]
-        })
-        stats["total_lines"] += file_stats["lines"]
-        stats["file_types"][file["extension"]] += 1
-
-    return stats
-
-def analyze_single_file(file_path):
-    """Analyze a single file."""
-    stats = {
-        "lines": 0,
-        "code_lines": 0,
-        "comment_lines": 0,
-        "blank_lines": 0,
-        "size_bytes": os.path.getsize(file_path)
-    }
-
-    try:
-        with open(file_path, 'r', encoding='utf-8') as f:
-            for line in f:
-                stats["lines"] += 1
-                stripped = line.strip()
-                if not stripped:
-                    stats["blank_lines"] += 1
-                elif stripped.startswith(('#', '//', '/*', '*', '"""', "'''")):
-                    stats["comment_lines"] += 1
-                else:
-                    stats["code_lines"] += 1
-    except Exception as e:
-        print(f"Error analyzing file {file_path}: {e}")
-
-    return stats
+    # Save historical data
+    save_historical_data(chart_data)
 
 if __name__ == "__main__":
     generate_report()
