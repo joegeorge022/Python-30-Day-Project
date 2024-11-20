@@ -1,11 +1,11 @@
 # Day 10: Working with Loops and Lists
 
-## **Task**: Use loops to manipulate and iterate over a list of numbers.
+## Task: Use loops to manipulate and iterate over a list of numbers.
 
 **Description**:  
 In this task, you will practice using loops to iterate through a list of numbers and perform operations on each element. The program will calculate the sum, the average, and find the maximum and minimum values from a list of numbers.
 
-### **Key Steps**:
+### Key Steps:
 1. **Create a List of Numbers**:  
    First, create a list of numbers either manually or by taking input from the user.
 
@@ -23,7 +23,7 @@ In this task, you will practice using loops to iterate through a list of numbers
 ---
 
 **Example**:
-```python
+{% highlight python linenos %}
 # Create a list of numbers
 numbers = [10, 20, 30, 40, 50]
 
@@ -48,4 +48,5 @@ print("Sum:", sum_of_numbers)            # Output: Sum: 150
 print("Average:", average)               # Output: Average: 30.0
 print("Maximum:", max_number)            # Output: Maximum: 50
 print("Minimum:", min_number)            # Output: Minimum: 10
+{% endhighlight %}
 
