@@ -1,3 +1,7 @@
+"""
+Author :Job Thomas Cherian
+Date:13/11/24
+"""
 numbers=[1,2,3,4]
 productOfNumbers=1
 max_number=numbers[0]
