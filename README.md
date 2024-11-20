@@ -4,7 +4,10 @@ Welcome to the **Python 30-Day Project**! This repository is designed to enhance
 
 ## 🌟 Project Overview
 
-Click [here](https://joegeorge022.github.io/Python-30-Day-Project/) for project overview.
+ Click [here](https://joegeorge022.github.io/Python-30-Day-Project/) for project overview.
+ 
+ Click [here](https://joegeorge022.github.io/Python-30-Day-Project/progress_dashboard.html) to track student progress
+
 
 Each day features a task where you'll implement code examples, solve problems, and gain hands-on experience. By the end of this project, you'll have an understanding of Python programming!
 
