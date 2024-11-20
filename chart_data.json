@@ -728,7 +728,7 @@
       "file_types": {
         ".py": 11
       },
-      "total_lines": 169,
+      "total_lines": 173,
       "detailed_daily_stats": {
         "Day 0": {
           "total_lines": 2,
@@ -941,8 +941,8 @@
           ]
         },
         "Day 10": {
-          "total_lines": 15,
-          "code_lines": 15,
+          "total_lines": 19,
+          "code_lines": 19,
           "comment_lines": 0,
           "functions": 0,
           "classes": 0,
@@ -952,12 +952,12 @@
               "name": "job10.py",
               "path": "Day-10/job10.py",
               "extension": ".py",
-              "lines": 15,
-              "code_lines": 15,
+              "lines": 19,
+              "code_lines": 19,
               "comment_lines": 0,
               "functions": 0,
               "classes": 0,
-              "size": 371
+              "size": 426
             }
           ]
         }
