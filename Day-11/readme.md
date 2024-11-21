@@ -28,13 +28,13 @@ my_tuple = (10, 20, 30, 40)
 print("Original Tuple:", my_tuple)  # Output: Original Tuple: (10, 20, 30, 40)
 ```
 
-## 1.Accessing elements
+## 1. Accessing elements
 ```python
 print("First Element:", my_tuple[0])       # Output: First Element: 10
 print("Last Element:", my_tuple[-1])       # Output: Last Element: 40
 ```
 
-## 2.Convert tuple to list, modify, and convert back
+## 2. Convert tuple to list, modify, and convert back
 ```python
 
 my_list = list(my_tuple)
@@ -49,14 +49,14 @@ my_set = {10, 20, 30, 40}
 print("Original Set:", my_set)             # Output: Original Set: {40, 10, 20, 30}
 ```
 
-## 1.Add and remove elements
+## 1. Add and remove elements
 ```python
 my_set.add(50)
 my_set.remove(20)
 print("Updated Set:", my_set)              # Output: Updated Set: {40, 10, 50, 30}
 ```
 
-## 2.Set Operations
+## 2. Set Operations
 ```python
 set1 = {1, 2, 3, 4}
 set2 = {3, 4, 5, 6}
