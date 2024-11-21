@@ -10,7 +10,8 @@
     "Day 7": 4,
     "Day 8": 4,
     "Day 9": 3,
-    "Day 10": 2
+    "Day 10": 2,
+    "Day 11": 1
   },
   "student_progress": {
     "Joe Martin": {
@@ -710,8 +711,8 @@
       }
     },
     "Job Thomas": {
-      "total_files": 11,
-      "completed_days": 11,
+      "total_files": 12,
+      "completed_days": 12,
       "daily_submissions": {
         "Day 0": 1,
         "Day 1": 1,
@@ -723,12 +724,13 @@
         "Day 7": 1,
         "Day 8": 1,
         "Day 9": 1,
-        "Day 10": 1
+        "Day 10": 1,
+        "Day 11": 1
       },
       "file_types": {
-        ".py": 11
+        ".py": 12
       },
-      "total_lines": 173,
+      "total_lines": 188,
       "detailed_daily_stats": {
         "Day 0": {
           "total_lines": 2,
@@ -960,6 +962,27 @@
               "size": 426
             }
           ]
+        },
+        "Day 11": {
+          "total_lines": 15,
+          "code_lines": 15,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "job11.py",
+              "path": "Day-11/job11.py",
+              "extension": ".py",
+              "lines": 15,
+              "code_lines": 15,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 426
+            }
+          ]
         }
       }
     },
@@ -1024,11 +1047,11 @@
     "Joe Martin": 64.28571428571429,
     "Joe George": 78.57142857142857,
     "Ganesh Chandran": 71.42857142857143,
-    "Job Thomas": 78.57142857142857,
+    "Job Thomas": 85.71428571428571,
     "Indhu Subash": 14.285714285714285
   },
   "language_distribution": {
-    ".py": 43
+    ".py": 44
   },
   "repository_activity": {
     "activity_timeline": {},
