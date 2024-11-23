@@ -9,7 +9,7 @@
     "Day 6": 4,
     "Day 7": 4,
     "Day 8": 4,
-    "Day 9": 3,
+    "Day 9": 4,
     "Day 10": 3,
     "Day 11": 3
   },
@@ -1009,18 +1009,19 @@
       }
     },
     "Indhu Subash": {
-      "total_files": 4,
-      "completed_days": 4,
+      "total_files": 5,
+      "completed_days": 5,
       "daily_submissions": {
         "Day 0": 1,
         "Day 1": 1,
+        "Day 9": 1,
         "Day 10": 1,
         "Day 11": 1
       },
       "file_types": {
-        ".py": 4
+        ".py": 5
       },
-      "total_lines": 61,
+      "total_lines": 81,
       "detailed_daily_stats": {
         "Day 0": {
           "total_lines": 6,
@@ -1061,6 +1062,27 @@
               "functions": 0,
               "classes": 0,
               "size": 315
+            }
+          ]
+        },
+        "Day 9": {
+          "total_lines": 20,
+          "code_lines": 20,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "indhusubash.py",
+              "path": "Day-9/indhusubash.py",
+              "extension": ".py",
+              "lines": 20,
+              "code_lines": 20,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 606
             }
           ]
         },
@@ -1114,10 +1136,10 @@
     "Joe George": 80.0,
     "Ganesh Chandran": 66.66666666666666,
     "Job Thomas": 80.0,
-    "Indhu Subash": 26.666666666666668
+    "Indhu Subash": 33.33333333333333
   },
   "language_distribution": {
-    ".py": 47
+    ".py": 48
   },
   "repository_activity": {
     "activity_timeline": {},
