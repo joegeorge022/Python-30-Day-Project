@@ -973,8 +973,8 @@
           "files": 1,
           "file_details": [
             {
-              "name": "job10.py",
-              "path": "Day-10/job10.py",
+              "name": "job.py",
+              "path": "Day-10/job.py",
               "extension": ".py",
               "lines": 19,
               "code_lines": 19,
@@ -994,15 +994,15 @@
           "files": 1,
           "file_details": [
             {
-              "name": "job11.py",
-              "path": "Day-11/job11.py",
+              "name": "job.py",
+              "path": "Day-11/job.py",
               "extension": ".py",
               "lines": 15,
               "code_lines": 15,
               "comment_lines": 0,
               "functions": 0,
               "classes": 0,
-              "size": 426
+              "size": 428
             }
           ]
         }
