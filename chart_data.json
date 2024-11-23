@@ -1073,15 +1073,15 @@
           "files": 1,
           "file_details": [
             {
-              "name": "indhusubash.py",
-              "path": "Day-10/indhusubash.py",
+              "name": "indhu.py",
+              "path": "Day-10/indhu.py",
               "extension": ".py",
               "lines": 19,
               "code_lines": 19,
               "comment_lines": 0,
               "functions": 0,
               "classes": 0,
-              "size": 419
+              "size": 421
             }
           ]
         },
