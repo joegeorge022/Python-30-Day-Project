@@ -1094,15 +1094,15 @@
           "files": 1,
           "file_details": [
             {
-              "name": "day11 indhu.py",
-              "path": "Day-11/day11 indhu.py",
+              "name": "indhu.py",
+              "path": "Day-11/indhu.py",
               "extension": ".py",
               "lines": 20,
               "code_lines": 20,
               "comment_lines": 0,
               "functions": 0,
               "classes": 0,
-              "size": 457
+              "size": 459
             }
           ]
         }
