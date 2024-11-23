@@ -46,15 +46,3 @@ my_tuple = (1, "Code", 9.8)
 a, b, c = my_tuple
 print(a, b, c)  # Output: 1 Code 9.8
 ```
-
-## Task 4: Modify a Tuple
-
-**Task**: Try to change an element in a tuple and observe the error.
-
-**Example**:
-```python
-my_tuple = (1, "Python", 3.14)
-
-# Attempt to modify
-my_tuple[0] = 10  # Error: 'tuple' object does not support item assignment
-```
