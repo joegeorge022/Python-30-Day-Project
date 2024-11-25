@@ -16,7 +16,7 @@ for number in numbers:
 
 average = sum_of_numbers / len(numbers)
 
-print("Sum:", sum_of_numbers)            # Output: Sum: 150
-print("Average:", average)               # Output: Average: 30.0
-print("Maximum:", max_number)            # Output: Maximum: 50
-print("Minimum:", min_number)            # Output: Minimum: 10
+print("Sum:", sum_of_numbers)           
+print("Average:", average)               
+print("Maximum:", max_number)            
+print("Minimum:", min_number)            
