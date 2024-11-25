@@ -1,4 +1,4 @@
-# Day 14: Mastering Dictionaries in Python  
+# Day 14: Introduction to Dictionaries 
 
 ## **Task**: Explore and manipulate dictionaries to work with key-value pairs.  
 
