@@ -10,8 +10,8 @@
     "Day 7": 5,
     "Day 8": 5,
     "Day 9": 5,
-    "Day 10": 4,
-    "Day 11": 4,
+    "Day 10": 5,
+    "Day 11": 5,
     "Day 12": 1
   },
   "student_progress": {
@@ -568,8 +568,8 @@
       }
     },
     "Ganesh Chandran": {
-      "total_files": 10,
-      "completed_days": 10,
+      "total_files": 12,
+      "completed_days": 12,
       "daily_submissions": {
         "Day 0": 1,
         "Day 1": 1,
@@ -580,12 +580,14 @@
         "Day 6": 1,
         "Day 7": 1,
         "Day 8": 1,
-        "Day 9": 1
+        "Day 9": 1,
+        "Day 10": 1,
+        "Day 11": 1
       },
       "file_types": {
-        ".py": 10
+        ".py": 12
       },
-      "total_lines": 179,
+      "total_lines": 256,
       "detailed_daily_stats": {
         "Day 0": {
           "total_lines": 5,
@@ -794,6 +796,48 @@
               "functions": 0,
               "classes": 0,
               "size": 486
+            }
+          ]
+        },
+        "Day 10": {
+          "total_lines": 18,
+          "code_lines": 18,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "Ganesh10.py",
+              "path": "Day-10/Ganesh10.py",
+              "extension": ".py",
+              "lines": 18,
+              "code_lines": 18,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 418
+            }
+          ]
+        },
+        "Day 11": {
+          "total_lines": 59,
+          "code_lines": 54,
+          "comment_lines": 5,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "Ganesh11.py",
+              "path": "Day-11/Ganesh11.py",
+              "extension": ".py",
+              "lines": 59,
+              "code_lines": 54,
+              "comment_lines": 5,
+              "functions": 0,
+              "classes": 0,
+              "size": 1097
             }
           ]
         }
@@ -1377,12 +1421,12 @@
   "completion_rates": {
     "Joe Martin": 80.0,
     "Joe George": 80.0,
-    "Ganesh Chandran": 66.66666666666666,
+    "Ganesh Chandran": 80.0,
     "Job Thomas": 86.66666666666667,
     "Indhu Subash": 80.0
   },
   "language_distribution": {
-    ".py": 59
+    ".py": 61
   },
   "repository_activity": {
     "activity_timeline": {},
