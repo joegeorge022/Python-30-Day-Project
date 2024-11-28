@@ -12,7 +12,9 @@
     "Day 9": 5,
     "Day 10": 5,
     "Day 11": 5,
-    "Day 12": 1
+    "Day 12": 2,
+    "Day 13": 1,
+    "Day 14": 1
   },
   "student_progress": {
     "Joe Martin": {
@@ -568,8 +570,8 @@
       }
     },
     "Ganesh Chandran": {
-      "total_files": 12,
-      "completed_days": 12,
+      "total_files": 15,
+      "completed_days": 15,
       "daily_submissions": {
         "Day 0": 1,
         "Day 1": 1,
@@ -582,12 +584,15 @@
         "Day 8": 1,
         "Day 9": 1,
         "Day 10": 1,
-        "Day 11": 1
+        "Day 11": 1,
+        "Day 12": 1,
+        "Day 13": 1,
+        "Day 14": 1
       },
       "file_types": {
-        ".py": 12
+        ".py": 15
       },
-      "total_lines": 256,
+      "total_lines": 324,
       "detailed_daily_stats": {
         "Day 0": {
           "total_lines": 5,
@@ -838,6 +843,69 @@
               "functions": 0,
               "classes": 0,
               "size": 1097
+            }
+          ]
+        },
+        "Day 12": {
+          "total_lines": 27,
+          "code_lines": 27,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "Ganesh12.py",
+              "path": "Day-12/Ganesh12.py",
+              "extension": ".py",
+              "lines": 27,
+              "code_lines": 27,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 621
+            }
+          ]
+        },
+        "Day 13": {
+          "total_lines": 13,
+          "code_lines": 13,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "Ganesh13.py",
+              "path": "Day-13/Ganesh13.py",
+              "extension": ".py",
+              "lines": 13,
+              "code_lines": 13,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 239
+            }
+          ]
+        },
+        "Day 14": {
+          "total_lines": 28,
+          "code_lines": 28,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "Ganesh14.py",
+              "path": "Day-14/Ganesh14.py",
+              "extension": ".py",
+              "lines": 28,
+              "code_lines": 28,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 469
             }
           ]
         }
@@ -1421,12 +1489,12 @@
   "completion_rates": {
     "Joe Martin": 80.0,
     "Joe George": 80.0,
-    "Ganesh Chandran": 80.0,
+    "Ganesh Chandran": 100.0,
     "Job Thomas": 86.66666666666667,
     "Indhu Subash": 80.0
   },
   "language_distribution": {
-    ".py": 61
+    ".py": 64
   },
   "repository_activity": {
     "activity_timeline": {},
