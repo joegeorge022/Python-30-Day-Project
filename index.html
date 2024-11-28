@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!--This is the head tag of the site containing the metadata, title, link to the stylesheet and the website logo.-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Python 30-Day Project</title>
@@ -11,6 +12,7 @@
 <body>
     <div class="container">
         <header>Python 30-Day Project</header>
+        <!--The div section below displays the Team members and they have all been linked to their respective github profiles.-->
         <div class="team-members">
             <p class="team-title">Project Team</p>
             <div class="members">
@@ -20,9 +22,13 @@
                 <a href="https://github.com/Jobthomas10" target="_blank"><span>Job Thomas</span></a>
                 <a href="https://github.com/IndhuSubash-2007" target="_blank"><span>Indhu Subash</span></a>
             </div>
+            <!--This is the link to the progress dashboard.-->
             <a href="progress_dashboard.html" class="progress-link">View Progress Dashboard</a>
         </div>
-        
+
+        <!--The below div cointains the Days and their respective tasks. 
+        You can view the task descriptions as a webpage. 
+        This is because each folder in the repo had a readme.md (markdown files) which can be viewed as webpages. -->
         <div class="day-links">
             <a href="Day-0" class="day">Day 0: Print Function</a>
             <a href="Day-1" class="day">Day 1: Variables</a>
@@ -57,8 +63,10 @@
             <a href="Day-30" class="day">Day 30: Coming Soon</a>
         </div>
     </div>
+
+    <!--The below tags until audio helps with the styling of the website. 
+    Although its subtle and not the most important thing It's still fun.-->
     <div class="loader"></div>
-    <script src="js/main.js"></script>
     <div class="forest-fog"></div>
     <div class="forest-glimmer">
         <div class="glimmer"></div>
@@ -80,7 +88,13 @@
         <div class="particle"></div>
         <div class="particle"></div>
     </div>
-        <audio autoplay loop><source src="assets/song.mp3" type="audio/mpeg">
-        </audio>
+    
+    <!--The below audio tag allows an audio to be played in the background of the website. 
+    I believe the audio matches the aesthetic of the website. -->
+    <audio autoplay loop><source src="assets/song.mp3" type="audio/mpeg">
+    </audio>
+
+    <!--The below tag links the javascript code to the html website.-->
+    <script src="js/main.js"></script>
 </body>
 </html>
