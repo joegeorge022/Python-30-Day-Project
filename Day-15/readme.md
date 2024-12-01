@@ -15,14 +15,13 @@ In Python, functions can be defined to perform operations on dictionaries, makin
 Create a function that takes a dictionary of student scores and returns the average score.
 
 ```python
-def calculate_average(scores):
-    total = sum(scores.values())
-    count = len(scores)
-    average = total / count if count > 0 else 0
+def average(i):
+    total = sum(i.values())        # Here the total value is set as the sum of all values
+    count = len(i)                 # Here the total count is set to the number of values
+    average = total/count          # Avg = total/count
     return average
 
-average_score = calculate_average(student_scores)
-print("Average Score:", average_score)  # Output: Average Score: 90.0
+print("Average Score:",average(student_scores))        # The function average() is used to find the average score.
 ```
 
 ## 2. Function to Find the Highest Score
@@ -30,11 +29,16 @@ Define a function that finds the student with the highest score.
 
 ```python
 def find_highest_score(scores):
-    highest_student = max(scores, key=scores.get)
-    return highest_student, scores[highest_student]
+    highest_student = None
+    highest_score = 0
+    for student, score in scores.items():
+        if score > highest_score:
+            highest_score = score
+            highest_student = student
+    return highest_student, highest_score
 
 highest_student, highest_score = find_highest_score(student_scores)
-print(f"Highest Score: {highest_student} with {highest_score}")  # Output: Highest Score: Diana with 92
+print(f"Highest Score: {highest_student} with {highest_score}")
 ```
 
 3. Looping Through Keys and Values
