@@ -65,8 +65,7 @@ print(f"Sum of digits of {number}: {sum_of_digits(number)}")  # Output: Sum of d
 
 ---
 
-# YOU DONT HAVE TO DO THE 4TH EXERCISE.
-# BUT IT IS NECESSARY TO UNDERSTAND IT.
+# YOU DONT HAVE TO DO THE 4TH EXERCISE. BUT IT IS NECESSARY THAT YOU UNDERSTAND IT.
 ##  4. Comparing Iterative and Recursive Solutions 
 Solve the same problem (e.g., factorial) using iteration and recursion, then compare their outputs.
 
