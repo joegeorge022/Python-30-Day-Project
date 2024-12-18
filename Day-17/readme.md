@@ -14,18 +14,8 @@ In today’s task, you will:
 
 ##  1. Factorial Using Recursion
 Write a recursive function to calculate the factorial of a number.
+### Do this on your own. You know how to. This was taught in class
 
-```python
-# Function to calculate factorial
-def factorial(n):
-    if n == 0 or n == 1:  # Base case
-        return 1
-    return n * factorial(n - 1)  # Recursive call
-
-# Example usage
-number = 5
-print(f"Factorial of {number}: {factorial(number)}")  # Output: Factorial of 5: 120
-```
 
 ---
 
@@ -49,19 +39,8 @@ print(f"{nth}th Fibonacci number: {fibonacci(nth)}")  # Output: 7th Fibonacci nu
 ---
 
 ##  3. Sum of Digits Using Recursion
-Define a recursive function to calculate the sum of the digits of a positive integer.
-
-```python
-# Function to calculate sum of digits
-def sum_of_digits(n):
-    if n == 0:  # Base case
-        return 0
-    return n % 10 + sum_of_digits(n // 10)  # Recursive call
-
-# Example usage
-number = 1234
-print(f"Sum of digits of {number}: {sum_of_digits(number)}")  # Output: Sum of digits of 1234: 10
-```
+Define a recursive function to calculate the sum of the digits of a positive integer
+### Do this on your own. You know how to. This was taught in class
 
 ---
 
