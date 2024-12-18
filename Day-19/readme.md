@@ -1,104 +1,87 @@
-# Day 19: Lottery Simulation Using the `random` Module
+# Day 19: Fibonacci Sequence with Recursion
 
-## **Task**: Create a lottery simulation to understand the usage of the `random` module in Python.
+## **Task**: Use functions and recursion to print the Fibonacci sequence up to a number `N`.
 
 **Description**:  
-The `random` module in Python provides functions to generate random numbers or choose random items from a sequence. In today’s task, you will create a simple lottery simulation where random numbers are generated and compared to user-selected numbers.
+Recursion is a fundamental programming concept where a function calls itself to solve smaller instances of a problem. Today’s task focuses on printing the Fibonacci sequence using recursion. This exercise will help you deepen your understanding of recursion and function calls.
 
 You will:  
-1. Use the `random.sample()` method to generate random lottery numbers.  
-2. Allow the user to input their lottery numbers.  
-3. Compare the numbers and determine the results.  
-4. Enhance the task with bonus challenges like multiple players or different prize tiers.
+1. Define a recursive function to generate the Fibonacci sequence.  
+2. Pass parameters to control the current and next numbers in the sequence.  
+3. Print all Fibonacci numbers less than or equal to a given number `N`.
 
 ---
 
-## 1. Generating Random Lottery Numbers
-Use the `random.sample()` method to pick unique random numbers.
+## 1. Understanding Fibonacci Numbers
+The Fibonacci sequence is a series of numbers where each number is the sum of the two preceding ones, starting from 0 and 1.  
+**Example**: 0, 1, 1, 2, 3, 5, 8, 13, 21...
+
+---
+
+## 2. Implementing the Recursive Function
+Here is the Python code for the task:
 
 ```python
-import random
+# Function to print Fibonacci sequence up to a number N
+def print_fibonacci(n, a=0, b=1):
+    if a > n:  # Base condition: stop if current number exceeds N
+        return
+    print(a, end=" ")  # Print the current number
+    print_fibonacci(n, b, a + b)  # Recursive call with updated values
 
-# Generate 5 random numbers between 1 and 50
-lottery_numbers = random.sample(range(1, 51), 5)
-print("Today's Lottery Numbers are:", lottery_numbers)
+# Example usage:
+n = 50
+print(f"Fibonacci numbers up to {n}:")
+print_fibonacci(n)
 ```
 
-## 2. User Input for Lottery Numbers
-Prompt the user to enter their chosen numbers.
+---
 
+## 3. Step-by-Step Explanation
+1. **Base Case**: The recursion stops when the current number `a` exceeds `N`.
+2. **Recursive Call**: The function calls itself with `b` as the new current number and `a + b` as the new next number.
+3. **Print Statement**: Each number in the sequence is printed during the recursive call.
+
+---
+
+## 4. Testing the Code
+Run the code with different values of `N` to test its functionality. Examples:
+
+### Input 1
 ```python
-# User enters 5 numbers
-user_numbers = []
-print("Enter 5 numbers between 1 and 50:")
-
-for i in range(5):
-    num = int(input(f"Enter number {i + 1}: "))
-    while num < 1 or num > 50 or num in user_numbers:
-        num = int(input("Invalid or duplicate entry. Try again: "))
-    user_numbers.append(num)
-
-print("Your Lottery Numbers are:", user_numbers)
+n = 20
+print(f"Fibonacci numbers up to {n}:")
+print_fibonacci(n)
+```
+**Output**:
+```
+Fibonacci numbers up to 20: 0 1 1 2 3 5 8 13 
 ```
 
-## 3. Comparing Results
-Compare user-selected numbers with the randomly generated lottery numbers.
-
+### Input 2
 ```python
-# Find matching numbers
-matches = set(lottery_numbers).intersection(user_numbers)
-
-print(f"You matched {len(matches)} number(s): {sorted(matches)}")
+n = 100
+print(f"Fibonacci numbers up to {n}:")
+print_fibonacci(n)
+```
+**Output**:
+```
+Fibonacci numbers up to 100: 0 1 1 2 3 5 8 13 21 34 55 89 
 ```
 
-## 4. Bonus: Enhanced Lottery Simulation
-Add features to make the lottery simulation more exciting.
+---
 
-### a. Multiple Players
-Allow multiple users to participate and find out who matches the most numbers.
-
-```python
-# Simulate multiple players
-num_players = int(input("Enter the number of players: "))
-players = {}
-
-for player in range(1, num_players + 1):
-    print(f"\nPlayer {player}, choose your numbers:")
-    player_numbers = []
-    for i in range(5):
-        num = int(input(f"Enter number {i + 1}: "))
-        while num < 1 or num > 50 or num in player_numbers:
-            num = int(input("Invalid or duplicate entry. Try again: "))
-        player_numbers.append(num)
-    players[f"Player {player}"] = player_numbers
-
-# Compare results for all players
-for player, numbers in players.items():
-    matches = set(lottery_numbers).intersection(numbers)
-    print(f"{player} matched {len(matches)} number(s): {sorted(matches)}")
-```
-
-### b. Prize Tiers
-Assign prize tiers based on the number of matches.
+## Bonus: Adding User Input
+Allow users to input the maximum number for the Fibonacci sequence.
 
 ```python
-# Prize tiers
-prizes = {
-    5: "Jackpot!",
-    4: "Second Prize",
-    3: "Third Prize",
-    2: "Consolation Prize",
-    1: "Better Luck Next Time",
-    0: "No Matches, Try Again!"
-}
-
-# Display prize based on matches
-matches = set(lottery_numbers).intersection(user_numbers)
-print(f"You matched {len(matches)} number(s): {sorted(matches)}")
-print("Prize:", prizes[len(matches)])
+# Prompt user for input
+n = int(input("Enter the maximum number for the Fibonacci sequence: "))
+print(f"Fibonacci numbers up to {n}:")
+print_fibonacci(n)
 ```
 
 ---
 
 ### Summary
-This task introduces the `random` module and demonstrates its application in a fun lottery simulation. You can expand it further by adding more features or customizing the rules. Enjoy coding!
+This task introduces recursion by solving a classic problem: generating the Fibonacci sequence. Experiment with the function and try different values of `N` to reinforce your understanding of recursion and function calls.
