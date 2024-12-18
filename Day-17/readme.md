@@ -19,7 +19,7 @@ Write a recursive function to calculate the factorial of a number.
 
 ---
 
-##  2. Fibonacci Sequence Using Recursion
+##  2. Find N'th Fibonacci Number Using Recursion
 Create a recursive function to find the nth Fibonacci number.
 
 ```python
