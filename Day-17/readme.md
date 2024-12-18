@@ -38,7 +38,7 @@ print(f"{nth}th Fibonacci number: {fibonacci(nth)}")  # Output: 7th Fibonacci nu
 
 ---
 
-##  3. Sum of Digits Using Recursion
+##  3. Sum of Digits of a Single number Using Recursion 
 Define a recursive function to calculate the sum of the digits of a positive integer
 ### Do this on your own. You know how to. This was taught in class
 
