@@ -75,31 +75,6 @@ for i in range(1, 6):
 
 ---
 
-## 4. Beginner-Friendly Exercise: Count Letter Occurrences
-
-**Task**: Write a program that uses nested loops to count how many times each letter appears in a list of words.
-
-```python
-words = ["hello", "world"]
-letter_counts = {}
-
-for word in words:
-    for letter in word:
-        if letter in letter_counts:
-            letter_counts[letter] += 1
-        else:
-            letter_counts[letter] = 1
-
-print("Letter Counts:", letter_counts)
-```
-**Output**: 
-```
-Letter Counts: {'h': 1, 'e': 1, 'l': 3, 'o': 2, 'w': 1, 'r': 1, 'd': 1}
-```
-**Explanation**: The outer loop iterates through words, while the inner loop iterates through letters in each word, updating the count in a dictionary.
-
----
-
 **Key Takeaways**:
 - Nested loops are powerful for working with multidimensional data or solving multi-layered problems.
 - Practice is essential to mastering nested loops, especially understanding how the inner and outer loops interact.
