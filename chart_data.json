@@ -1975,11 +1975,11 @@
     }
   },
   "completion_rates": {
-    "Joe Martin": 77.27272727272727,
-    "Joe George": 86.36363636363636,
-    "Ganesh Chandran": 77.27272727272727,
-    "Job Thomas": 81.81818181818183,
-    "Indhu Subash": 68.18181818181817
+    "Joe Martin": 70.83333333333334,
+    "Joe George": 79.16666666666666,
+    "Ganesh Chandran": 70.83333333333334,
+    "Job Thomas": 75.0,
+    "Indhu Subash": 62.5
   },
   "language_distribution": {
     ".py": 86
