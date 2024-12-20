@@ -1,0 +1,16 @@
+my_list=[2,5,6,7]
+print("starting list")
+print(my_list)
+my_list.append(8)
+print("\n After append(8):",my_list)
+my_list.extend([70,67])
+print(my_list)
+my_list.insert(5,35)
+print(my_list)
+my_list.remove(35)
+print(my_list)
+
+my_list.sort()
+print(my_list)
+my_list.reverse()
+print(my_list)
