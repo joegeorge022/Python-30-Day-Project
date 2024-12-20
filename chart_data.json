@@ -18,7 +18,7 @@
     "Day 15": 5,
     "Day 16": 5,
     "Day 17": 3,
-    "Day 18": 3,
+    "Day 18": 4,
     "Day 19": 3,
     "Day 20": 3,
     "Day 21": 3,
@@ -1514,8 +1514,8 @@
       }
     },
     "Job Thomas": {
-      "total_files": 18,
-      "completed_days": 18,
+      "total_files": 19,
+      "completed_days": 19,
       "daily_submissions": {
         "Day 0": 1,
         "Day 1": 1,
@@ -1534,12 +1534,13 @@
         "Day 14": 1,
         "Day 15": 1,
         "Day 16": 1,
-        "Day 17": 1
+        "Day 17": 1,
+        "Day 18": 1
       },
       "file_types": {
-        ".py": 18
+        ".py": 19
       },
-      "total_lines": 293,
+      "total_lines": 312,
       "detailed_daily_stats": {
         "Day 0": {
           "total_lines": 2,
@@ -1916,6 +1917,27 @@
               "functions": 4,
               "classes": 0,
               "size": 619
+            }
+          ]
+        },
+        "Day 18": {
+          "total_lines": 19,
+          "code_lines": 19,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "jobt.py",
+              "path": "Day-18/jobt.py",
+              "extension": ".py",
+              "lines": 19,
+              "code_lines": 19,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 368
             }
           ]
         }
@@ -2312,11 +2334,11 @@
     "Joe Martin": 91.66666666666666,
     "Joe George": 91.66666666666666,
     "Ganesh Chandran": 91.66666666666666,
-    "Job Thomas": 75.0,
+    "Job Thomas": 79.16666666666666,
     "Indhu Subash": 70.83333333333334
   },
   "language_distribution": {
-    ".py": 101
+    ".py": 102
   },
   "repository_activity": {
     "activity_timeline": {},
