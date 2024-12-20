@@ -2559,15 +2559,15 @@
           "files": 1,
           "file_details": [
             {
-              "name": "indhu..py",
-              "path": "Day-18/indhu..py",
+              "name": "indhu.py",
+              "path": "Day-18/indhu.py",
               "extension": ".py",
               "lines": 32,
               "code_lines": 32,
               "comment_lines": 0,
               "functions": 0,
               "classes": 0,
-              "size": 542
+              "size": 543
             }
           ]
         }
