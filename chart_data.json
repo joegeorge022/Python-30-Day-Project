@@ -16,7 +16,7 @@
     "Day 13": 5,
     "Day 14": 5,
     "Day 15": 5,
-    "Day 16": 6,
+    "Day 16": 5,
     "Day 17": 2,
     "Day 18": 2,
     "Day 19": 2,
@@ -1744,7 +1744,7 @@
       }
     },
     "Indhu Subash": {
-      "total_files": 18,
+      "total_files": 17,
       "completed_days": 17,
       "daily_submissions": {
         "Day 0": 1,
@@ -1763,13 +1763,12 @@
         "Day 13": 1,
         "Day 14": 1,
         "Day 15": 1,
-        "Day 16": 2
+        "Day 16": 1
       },
       "file_types": {
-        ".py": 17,
-        ".ipynb": 1
+        ".py": 17
       },
-      "total_lines": 368,
+      "total_lines": 270,
       "detailed_daily_stats": {
         "Day 0": {
           "total_lines": 6,
@@ -2108,24 +2107,13 @@
           ]
         },
         "Day 16": {
-          "total_lines": 127,
-          "code_lines": 127,
+          "total_lines": 29,
+          "code_lines": 29,
           "comment_lines": 0,
           "functions": 0,
           "classes": 0,
-          "files": 2,
+          "files": 1,
           "file_details": [
-            {
-              "name": "Indhu Subash.ipynb",
-              "path": "Day-16/Indhu Subash.ipynb",
-              "extension": ".ipynb",
-              "lines": 98,
-              "code_lines": 98,
-              "comment_lines": 0,
-              "functions": 0,
-              "classes": 0,
-              "size": 3072
-            },
             {
               "name": "Indhu_Subash.py",
               "path": "Day-16/Indhu_Subash.py",
@@ -2150,8 +2138,7 @@
     "Indhu Subash": 70.83333333333334
   },
   "language_distribution": {
-    ".py": 93,
-    ".ipynb": 1
+    ".py": 93
   },
   "repository_activity": {
     "activity_timeline": {},
