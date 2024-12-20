@@ -18,7 +18,7 @@
     "Day 15": 5,
     "Day 16": 5,
     "Day 17": 2,
-    "Day 18": 2,
+    "Day 18": 1,
     "Day 19": 2,
     "Day 20": 2
   },
@@ -884,8 +884,8 @@
       }
     },
     "Ganesh Chandran": {
-      "total_files": 20,
-      "completed_days": 20,
+      "total_files": 19,
+      "completed_days": 19,
       "daily_submissions": {
         "Day 0": 1,
         "Day 1": 1,
@@ -904,14 +904,13 @@
         "Day 14": 1,
         "Day 15": 1,
         "Day 16": 1,
-        "Day 18": 1,
         "Day 19": 1,
         "Day 20": 1
       },
       "file_types": {
-        ".py": 20
+        ".py": 19
       },
-      "total_lines": 450,
+      "total_lines": 420,
       "detailed_daily_stats": {
         "Day 0": {
           "total_lines": 5,
@@ -1267,27 +1266,6 @@
               "functions": 0,
               "classes": 0,
               "size": 581
-            }
-          ]
-        },
-        "Day 18": {
-          "total_lines": 30,
-          "code_lines": 30,
-          "comment_lines": 0,
-          "functions": 3,
-          "classes": 0,
-          "files": 1,
-          "file_details": [
-            {
-              "name": "GANesh.py",
-              "path": "Day-18/GANesh.py",
-              "extension": ".py",
-              "lines": 30,
-              "code_lines": 30,
-              "comment_lines": 0,
-              "functions": 3,
-              "classes": 0,
-              "size": 562
             }
           ]
         },
@@ -2133,12 +2111,12 @@
   "completion_rates": {
     "Joe Martin": 70.83333333333334,
     "Joe George": 87.5,
-    "Ganesh Chandran": 83.33333333333334,
+    "Ganesh Chandran": 79.16666666666666,
     "Job Thomas": 75.0,
     "Indhu Subash": 70.83333333333334
   },
   "language_distribution": {
-    ".py": 93
+    ".py": 92
   },
   "repository_activity": {
     "activity_timeline": {},
