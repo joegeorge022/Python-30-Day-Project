@@ -1502,8 +1502,8 @@
           "files": 1,
           "file_details": [
             {
-              "name": "ganesh21.py",
-              "path": "Day-21/ganesh21.py",
+              "name": "ganesh.py",
+              "path": "Day-21/ganesh.py",
               "extension": ".py",
               "lines": 26,
               "code_lines": 26,
@@ -1523,15 +1523,15 @@
           "files": 1,
           "file_details": [
             {
-              "name": "ganesh22.py",
-              "path": "Day-22/ganesh22.py",
+              "name": "ganesh.py",
+              "path": "Day-22/ganesh.py",
               "extension": ".py",
               "lines": 11,
               "code_lines": 11,
               "comment_lines": 0,
               "functions": 0,
               "classes": 0,
-              "size": 358
+              "size": 360
             }
           ]
         },
@@ -1544,8 +1544,8 @@
           "files": 1,
           "file_details": [
             {
-              "name": "ganesh23.py",
-              "path": "Day-23/ganesh23.py",
+              "name": "ganesh.py",
+              "path": "Day-23/ganesh.py",
               "extension": ".py",
               "lines": 29,
               "code_lines": 29,
