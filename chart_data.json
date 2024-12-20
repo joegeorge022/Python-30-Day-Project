@@ -2115,15 +2115,15 @@
           "files": 1,
           "file_details": [
             {
-              "name": "Indhu_Subash.py",
-              "path": "Day-16/Indhu_Subash.py",
+              "name": "Indhu.py",
+              "path": "Day-16/Indhu.py",
               "extension": ".py",
               "lines": 29,
               "code_lines": 29,
               "comment_lines": 0,
               "functions": 0,
               "classes": 0,
-              "size": 908
+              "size": 910
             }
           ]
         }
