@@ -2062,15 +2062,15 @@
           "files": 1,
           "file_details": [
             {
-              "name": "jobt.py",
-              "path": "Day-19/jobt.py",
+              "name": "job.py",
+              "path": "Day-19/job.py",
               "extension": ".py",
               "lines": 8,
               "code_lines": 8,
               "comment_lines": 0,
               "functions": 1,
               "classes": 0,
-              "size": 165
+              "size": 166
             }
           ]
         }
