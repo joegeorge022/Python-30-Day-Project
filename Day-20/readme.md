@@ -25,57 +25,7 @@ def greet(name):
 print(greet("Alice"))  # Output: Hello, Alice. Welcome!
 ```
 
-## 2. Practical Example: Calculator with Nested Functions
-
-Create a calculator function with nested functions for basic arithmetic operations.
-
-```python
-def calculator(a, b):
-    def add():
-        return a + b
-
-    def subtract():
-        return a - b
-
-    def multiply():
-        return a * b
-
-    def divide():
-        return a / b if b != 0 else "Division by zero!"
-
-    return {
-        "add": add(),
-        "subtract": subtract(),
-        "multiply": multiply(),
-        "divide": divide()
-    }
-
-results = calculator(10, 5)
-print("Addition:", results["add"])        # Output: Addition: 15
-print("Subtraction:", results["subtract"]) # Output: Subtraction: 5
-print("Multiplication:", results["multiply"]) # Output: Multiplication: 50
-print("Division:", results["divide"])      # Output: Division: 2.0
-```
-
-## 3. Using Closures for Data Encapsulation
-
-Closures in Python allow inner functions to retain the state of variables from their enclosing scope.
-
-```python
-def power(exponent):
-    def calculate(base):
-        return base ** exponent
-
-    return calculate
-
-square = power(2)  # Closure with exponent set to 2
-cube = power(3)    # Closure with exponent set to 3
-
-print(square(4))  # Output: 16
-print(cube(2))    # Output: 8
-```
-
-## 4. Nested Functions with Loops
+## 2. Nested Functions with Loops
 
 Combine nested functions and loops to process lists dynamically.
 
