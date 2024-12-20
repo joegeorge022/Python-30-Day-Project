@@ -16,7 +16,7 @@
     "Day 13": 5,
     "Day 14": 5,
     "Day 15": 5,
-    "Day 16": 4,
+    "Day 16": 5,
     "Day 17": 2,
     "Day 19": 2,
     "Day 18": 1,
@@ -1700,8 +1700,8 @@
       }
     },
     "Indhu Subash": {
-      "total_files": 16,
-      "completed_days": 16,
+      "total_files": 17,
+      "completed_days": 17,
       "daily_submissions": {
         "Day 0": 1,
         "Day 1": 1,
@@ -1718,12 +1718,14 @@
         "Day 12": 1,
         "Day 13": 1,
         "Day 14": 1,
-        "Day 15": 1
+        "Day 15": 1,
+        "Day 16": 1
       },
       "file_types": {
-        ".py": 16
+        ".py": 16,
+        ".ipynb": 1
       },
-      "total_lines": 241,
+      "total_lines": 339,
       "detailed_daily_stats": {
         "Day 0": {
           "total_lines": 6,
@@ -2060,6 +2062,27 @@
               "size": 797
             }
           ]
+        },
+        "Day 16": {
+          "total_lines": 98,
+          "code_lines": 98,
+          "comment_lines": 0,
+          "functions": 0,
+          "classes": 0,
+          "files": 1,
+          "file_details": [
+            {
+              "name": "Indhu Subash.ipynb",
+              "path": "Day-16/Indhu Subash.ipynb",
+              "extension": ".ipynb",
+              "lines": 98,
+              "code_lines": 98,
+              "comment_lines": 0,
+              "functions": 0,
+              "classes": 0,
+              "size": 3072
+            }
+          ]
         }
       }
     }
@@ -2069,10 +2092,11 @@
     "Joe George": 79.16666666666666,
     "Ganesh Chandran": 83.33333333333334,
     "Job Thomas": 75.0,
-    "Indhu Subash": 66.66666666666666
+    "Indhu Subash": 70.83333333333334
   },
   "language_distribution": {
-    ".py": 90
+    ".py": 90,
+    ".ipynb": 1
   },
   "repository_activity": {
     "activity_timeline": {},
