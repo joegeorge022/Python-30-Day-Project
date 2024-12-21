@@ -21,7 +21,7 @@
     "Day 18": 5,
     "Day 19": 5,
     "Day 20": 5,
-    "Day 21": 6,
+    "Day 21": 5,
     "Day 22": 5,
     "Day 23": 5
   },
@@ -1647,7 +1647,7 @@
       }
     },
     "Job Thomas": {
-      "total_files": 25,
+      "total_files": 24,
       "completed_days": 24,
       "daily_submissions": {
         "Day 0": 1,
@@ -1671,15 +1671,14 @@
         "Day 18": 1,
         "Day 19": 1,
         "Day 20": 1,
-        "Day 21": 2,
+        "Day 21": 1,
         "Day 22": 1,
         "Day 23": 1
       },
       "file_types": {
-        ".py": 24,
-        ".isdigi": 1
+        ".py": 24
       },
-      "total_lines": 398,
+      "total_lines": 384,
       "detailed_daily_stats": {
         "Day 0": {
           "total_lines": 2,
@@ -2123,24 +2122,13 @@
           ]
         },
         "Day 21": {
-          "total_lines": 28,
-          "code_lines": 28,
+          "total_lines": 14,
+          "code_lines": 14,
           "comment_lines": 0,
           "functions": 0,
           "classes": 0,
-          "files": 2,
+          "files": 1,
           "file_details": [
-            {
-              "name": "jobt.py\nprint(len(sen))\n\nprint(sen.lower())\n\nprint(sen.upper())\n\nprint(sen.replace(\"hello\",\"hai\"))\n\nprint(sen.find(\"h\"))\n\nprint(sen.split(\",\"))\n\nprint(sen.isdigi",
-              "path": "Day-21/jobt.py\nprint(len(sen))\n\nprint(sen.lower())\n\nprint(sen.upper())\n\nprint(sen.replace(\"hello\",\"hai\"))\n\nprint(sen.find(\"h\"))\n\nprint(sen.split(\",\"))\n\nprint(sen.isdigi",
-              "extension": ".isdigi",
-              "lines": 14,
-              "code_lines": 14,
-              "comment_lines": 0,
-              "functions": 0,
-              "classes": 0,
-              "size": 177
-            },
             {
               "name": "job.py",
               "path": "Day-21/job.py",
@@ -2747,8 +2735,7 @@
     "Indhu Subash": 100.0
   },
   "language_distribution": {
-    ".py": 120,
-    ".isdigi": 1
+    ".py": 120
   },
   "repository_activity": {
     "activity_timeline": {},
