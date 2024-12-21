@@ -2163,15 +2163,15 @@
           "files": 1,
           "file_details": [
             {
-              "name": "jobt.py",
-              "path": "Day-22/jobt.py",
+              "name": "job.py",
+              "path": "Day-22/job.py",
               "extension": ".py",
               "lines": 9,
               "code_lines": 8,
               "comment_lines": 1,
               "functions": 0,
               "classes": 0,
-              "size": 249
+              "size": 250
             }
           ]
         },
