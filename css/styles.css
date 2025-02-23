@@ -379,20 +379,6 @@ header {
         opacity: 0;
     }
 }
-.ambient-light {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    background: radial-gradient(
-        circle at var(--x) var(--y),
-        rgba(100, 184, 151, 0.15),
-        transparent 25%
-    );
-    z-index: 1;
-}
 @keyframes gradientFlow {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
